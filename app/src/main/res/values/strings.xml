@@ -1,3 +1,30 @@
 <resources>
     <string name="app_name">Discount</string>
+    <string name="title_activity_login">Sign in</string>
+
+    <!-- Strings related to login -->
+    <string name="offer_image_description">offer_image</string>
+    <string name="prompt_email">Correo electronico</string>
+    <string name="prompt_password">Contrasena</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="login_text_2">Aun sin cuenta? suscribete!</string>
+    <string name="sign_up_button">Registrate</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello One fragment</string>
+
+    <string name="drawer_item_home">Home</string>
+    <string name="drawer_item_settings">Ajustes</string>
+    <string name="image_view_description">Imagen</string>
+
+    <string name="google_android_map_api_key">AIzaSyC4EopvPigwIyMef27caRdlFaLE8RmBJk8</string>
+    <string name="login_text_1">o ingresa con una red social</string>
 </resources>
