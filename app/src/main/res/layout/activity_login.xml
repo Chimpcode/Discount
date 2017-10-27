@@ -9,7 +9,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.chimpcode.discount.LoginActivity"
-    android:background="@drawable/background_gradient_primary">
+    android:background="@drawable/background_simple">
 
     <!-- Login progress -->
     <ProgressBar
@@ -35,20 +35,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingBottom="90dp">
+                android:paddingBottom="12dp">
 
-                <TextView
+                <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/title_login"
-                    android:text="DISCOUNT"
-                    android:fontFamily="@font/bebas_neue"
-                    android:textColor="@color/white"
-                    android:textAlignment="center"
-                    android:textSize="70dp" />
+                    android:scaleX="0.8"
+                    android:scaleY="0.8"
+                    android:src="@drawable/logo_white" />
             </LinearLayout>
 
             <android.support.design.widget.TextInputLayout
+                android:paddingHorizontal="16dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColorHint="@color/white">
@@ -59,6 +57,7 @@
 
                     android:drawableStart="@drawable/ic_person"
                     android:drawablePadding="10dp"
+                    android:drawableTint="@color/white"
 
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -70,6 +69,7 @@
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
+                android:paddingHorizontal="16dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColorHint="@color/white">
@@ -82,7 +82,7 @@
 
                     android:drawableStart="@drawable/ic_https"
                     android:drawablePadding="10dp"
-
+                    android:drawableTint="@color/white"
 
                     android:imeActionId="6"
                     android:imeActionLabel="@string/action_sign_in_short"
@@ -94,15 +94,22 @@
 
             </android.support.design.widget.TextInputLayout>
 
-
-            <Button
-                android:id="@+id/email_sign_in_button"
-                style="@style/AppTheme.ButtonColored"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="@string/action_sign_in"
-                android:textStyle="bold" />
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/email_sign_in_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/action_sign_in"
+                    android:textStyle="bold"
+                    android:theme="@style/AppTheme.ButtonColored" />
+
+            </LinearLayout>
 
             <TextView
                 android:layout_width="match_parent"

@@ -11,7 +11,7 @@
             <gradient
                 android:angle="270"
                 android:startColor="@color/colorPrimaryTransparent"
-                android:centerColor="@color/colorThreeTransparent"
+                android:centerColor="@color/colorPrimaryTransparent"
                 android:endColor="@color/colorAccentTransparent"
                 android:type="linear" />
         </shape>

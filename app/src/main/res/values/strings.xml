@@ -33,7 +33,7 @@
     <string name="contrasena">Contrasena</string>
     <string name="repetir_contrasena">Repetir Contrasena</string>
     <string name="edad">Edad</string>
-    <string name="signup">SIGN UP</string>
+    <string name="signup">REGISTRAR</string>
     <string name="title_activity_settings">Settings</string>
 
     <!-- Strings related to Settings -->

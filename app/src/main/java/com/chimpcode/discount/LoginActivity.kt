@@ -24,15 +24,10 @@ import android.widget.TextView
 import java.util.ArrayList
 import android.Manifest.permission.READ_CONTACTS
 import android.content.Intent
-import android.graphics.Typeface
 import android.support.v4.app.ActivityOptionsCompat
-import android.transition.Fade
 import android.transition.Slide
-import android.transition.Transition
 import android.transition.TransitionInflater
 import android.view.Gravity
-import android.view.animation.DecelerateInterpolator
-import com.chimpcode.discount.R.id.*
 
 import kotlinx.android.synthetic.main.activity_login.*
 
@@ -51,7 +46,6 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
         setContentView(R.layout.activity_login)
         // Set up the login form.
         populateAutoComplete()
-
 
         password.setOnEditorActionListener(TextView.OnEditorActionListener { _, id, _ ->
             if (id == EditorInfo.IME_ACTION_DONE || id == EditorInfo.IME_NULL) {

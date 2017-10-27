@@ -39,13 +39,14 @@ import kotlinx.android.synthetic.main.fragment_promo_map.view.*
 import org.jetbrains.annotations.NotNull
 
 
-class PromoMapFragment : Fragment(), OnMapReadyCallback, GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks, LocationListener {
+class PromoMapFragment : Fragment(), OnMapReadyCallback,
+        GoogleApiClient.OnConnectionFailedListener,
+        GoogleApiClient.ConnectionCallbacks, LocationListener {
 
 
     val TAG : String = "PromoMapFragment"
 
     private var mFusedLocationClient : FusedLocationProviderClient? = null
-    private val mFusedLocationProviderApi = LocationServices.FusedLocationApi
     private var mMap : GoogleMap? = null
     private var mGoogleApiClient : GoogleApiClient? = null
     private var mLocationPermissionGranted : Boolean = false
@@ -70,7 +71,6 @@ class PromoMapFragment : Fragment(), OnMapReadyCallback, GoogleApiClient.OnConne
         locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         locationRequest.interval = 1000
         locationRequest.fastestInterval= 1000
-
 
         mGoogleApiClient = GoogleApiClient.Builder(context)
                 .enableAutoManage(activity/* FragmentActivity */,
@@ -103,58 +103,16 @@ class PromoMapFragment : Fragment(), OnMapReadyCallback, GoogleApiClient.OnConne
         getDeviceLocation()
     }
 
-    private fun getDeviceLocation() {
-        if (ContextCompat.checkSelfPermission(context,
-                android.Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED) {
+    private fun getLocationPermission() {
+        if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             mLocationPermissionGranted = true
         } else {
-            ActivityCompat.requestPermissions(activity,
-                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+            ActivityCompat.requestPermissions(activity, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
                     MY_PERMISSIONS_REQUEST_LOCATION)
         }
-        // A step later in the tutorial adds the code to get the device location.
-
-        try {
-            if (mLocationPermissionGranted) {
-                val locationResult : Task<Location> = mFusedLocationClient!!.lastLocation
-                locationResult.addOnCompleteListener(activity, object : OnCompleteListener<Location> {
-                    override fun onComplete(@NotNull task: Task<Location>) {
-                        if (task.isSuccessful) {
-                            mLastKnownLocation = task.result
-                            mMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(
-                                    LatLng(mLastKnownLocation!!.latitude, mLastKnownLocation!!.longitude),
-                                    14f))
-                            mMap?.animateCamera(CameraUpdateFactory.zoomTo(14f))
-                            mMap?.addMarker(MarkerOptions()
-                                    .position(LatLng(mLastKnownLocation!!.latitude, mLastKnownLocation!!.longitude))
-                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_geo_place))
-                                    .title("I'm Here!"))
-
-                        } else {
-                            Log.d(TAG, "Current location is null. Using defaults.")
-                            Log.e(TAG, "Exception: %s", task.getException())
-                            mMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(mDefaultLocation, 14f))
-                            mMap?.animateCamera(CameraUpdateFactory.zoomTo(14f))
-                            mMap?.addMarker(MarkerOptions()
-                                    .position(mDefaultLocation)
-                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_geo_place))
-                                    .title("I'm Here!"))
-                            mMap!!.uiSettings.isMyLocationButtonEnabled = false
-                        }
-                    }
-                })
-                mLastKnownLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient)
-            }
-        } catch (e : SecurityException) {
-            Log.e("Exception: %s", e.message)
-        }
     }
-
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-
         mLocationPermissionGranted = false
-
         when(requestCode) {
             MY_PERMISSIONS_REQUEST_LOCATION -> {
                 if (grantResults.isNotEmpty()
@@ -164,53 +122,6 @@ class PromoMapFragment : Fragment(), OnMapReadyCallback, GoogleApiClient.OnConne
             }
         }
         updateLocationUI()
-    }
-
-//    fun fetchNearPosts() {
-//        ApiClient.getService().getNearPromotions(,)
-//    }
-
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
-        if (context is IFragmentInteractionListener) {
-            mListener = context
-        } else {
-            throw RuntimeException(context!!.toString() + " must implement IFragmentInteractionListener")
-        }
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        mListener = null
-    }
-
-    override fun onConnectionFailed(p0: ConnectionResult) {
-
-    }
-
-    override fun onConnected(p0: Bundle?) {
-        try {
-            mFusedLocationProviderApi.requestLocationUpdates(mGoogleApiClient, locationRequest, this)
-        } catch (e : SecurityException) {
-            Log.e("Exception: %s", e.message)
-        }
-    }
-
-    override fun onLocationChanged(location: Location?) {
-        Log.i("onLocation Changed: %s", location.toString())
-    }
-
-    override fun onConnectionSuspended(p0: Int) {
-
-    }
-
-    private fun getLocationPermission() {
-        if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            mLocationPermissionGranted = true
-        } else {
-            ActivityCompat.requestPermissions(activity, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
-                    MY_PERMISSIONS_REQUEST_LOCATION)
-        }
     }
 
     private fun updateLocationUI() {
@@ -232,5 +143,89 @@ class PromoMapFragment : Fragment(), OnMapReadyCallback, GoogleApiClient.OnConne
             Log.e("Exception: %s", e.message);
         }
     }
+
+    private fun getDeviceLocation() {
+        if (ContextCompat.checkSelfPermission(context,
+                android.Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            mLocationPermissionGranted = true
+        } else {
+            ActivityCompat.requestPermissions(activity,
+                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                    MY_PERMISSIONS_REQUEST_LOCATION)
+        }
+        // A step later in the tutorial adds the code to get the device location.
+
+        try {
+            if (mLocationPermissionGranted) {
+                val locationResult : Task<Location> = mFusedLocationClient!!.lastLocation
+                locationResult.addOnCompleteListener(activity, object : OnCompleteListener<Location> {
+                    override fun onComplete(@NotNull task: Task<Location>) {
+                        if (task.isSuccessful) {
+                            mLastKnownLocation = task.result
+                            mMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(
+                                    LatLng(mLastKnownLocation!!.latitude, mLastKnownLocation!!.longitude),
+                                    14f))
+                            mMap?.animateCamera(CameraUpdateFactory.zoomTo(14f))
+                            mMap?.addMarker(MarkerOptions()
+                                    .position(LatLng(mLastKnownLocation!!.latitude, mLastKnownLocation!!.longitude))
+                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_geo_place))
+                                    .title("I'm Here!"))
+
+                        } else {
+                            Log.d(TAG, "Current location is null. Using defaults.")
+                            Log.e(TAG, "Exception: %s", task.getException())
+                            mMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(mDefaultLocation, 14f))
+                            mMap?.animateCamera(CameraUpdateFactory.zoomTo(14f))
+                            mMap?.addMarker(MarkerOptions()
+                                    .position(mDefaultLocation)
+                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_geo_place))
+                                    .title("I'm Here!"))
+                            mMap!!.uiSettings.isMyLocationButtonEnabled = false
+                        }
+                    }
+                })
+
+            }
+        } catch (e : SecurityException) {
+            Log.e("Exception: %s", e.message)
+        }
+    }
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        if (context is IFragmentInteractionListener) {
+            mListener = context
+        } else {
+            throw RuntimeException(context!!.toString() + " must implement IFragmentInteractionListener")
+        }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        mListener = null
+    }
+
+    override fun onConnectionFailed(p0: ConnectionResult) {
+
+    }
+
+    override fun onConnected(p0: Bundle?) {
+//        try {
+//            mFusedLocationProviderApi.requestLocationUpdates(mGoogleApiClient, locationRequest, this)
+//        } catch (e : SecurityException) {
+//            Log.e("Exception: %s", e.message)
+//        }
+    }
+
+    override fun onLocationChanged(location: Location?) {
+        Log.i("onLocation Changed: %s", location.toString())
+
+    }
+
+    override fun onConnectionSuspended(p0: Int) {
+
+    }
+
 
 }
