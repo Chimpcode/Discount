@@ -7,6 +7,7 @@
     <color name="colorAccentTransparent">#cefe7d22</color>
     <color name="colorThreeTransparent">#d8d01c27</color>
     <color name="white">#fff</color>
+    <color name="md_white_800">#F9F9F9</color>
     <color name="headerBackground">#A6264A</color>
 
 </resources>

@@ -25,6 +25,14 @@ import java.util.ArrayList
 import android.Manifest.permission.READ_CONTACTS
 import android.content.Intent
 import android.graphics.Typeface
+import android.support.v4.app.ActivityOptionsCompat
+import android.transition.Fade
+import android.transition.Slide
+import android.transition.Transition
+import android.transition.TransitionInflater
+import android.view.Gravity
+import android.view.animation.DecelerateInterpolator
+import com.chimpcode.discount.R.id.*
 
 import kotlinx.android.synthetic.main.activity_login.*
 
@@ -39,11 +47,12 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setupWindowAnimations()
         setContentView(R.layout.activity_login)
-        val titleLoginTF : Typeface = Typeface.createFromAsset(assets, "fonts/bebas_neue.otf")
-        title_login.typeface = titleLoginTF
         // Set up the login form.
         populateAutoComplete()
+
+
         password.setOnEditorActionListener(TextView.OnEditorActionListener { _, id, _ ->
             if (id == EditorInfo.IME_ACTION_DONE || id == EditorInfo.IME_NULL) {
                 attemptLogin()
@@ -55,12 +64,30 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
 //        email_sign_in_button.setOnClickListener { attemptLogin() }
 
         email_sign_in_button.setOnClickListener { goToHome() }
-        sign_up_button.setOnClickListener { goToHome() }
+        sign_up_button.setOnClickListener { goToSignup() }
+    }
+
+    private fun setupWindowAnimations() {
+        val slide= TransitionInflater.from(this).inflateTransition(R.transition.activity_slide) as Slide
+        slide.slideEdge = Gravity.START
+        window.exitTransition = slide
+
+//        val slide = Slide(Gravity.START)
+//
+//        slide.duration = 1000
+//        slide.interpolator = DecelerateInterpolator()
+
     }
 
     private fun goToHome() {
         val intent = Intent(this, HomeActivity::class.java)
         startActivity(intent)
+    }
+    private fun goToSignup() {
+
+        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this)
+        val intent = Intent(this, SignupActivity::class.java)
+        startActivity(intent, options.toBundle())
     }
 
     private fun populateAutoComplete() {

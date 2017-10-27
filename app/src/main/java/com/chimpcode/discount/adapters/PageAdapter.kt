@@ -1,8 +1,10 @@
 package com.chimpcode.discount.adapters
 
+import android.os.Debug
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
+import android.util.Log
 import com.chimpcode.discount.fragments.PromoListFragment
 import com.chimpcode.discount.fragments.PromoMapFragment
 
@@ -33,10 +35,10 @@ class PageAdapter(fm: FragmentManager, internal var mNumOfTabs: Int) : FragmentS
     override fun getPageTitle(position: Int): CharSequence {
         when(position) {
             0 -> {
-                return "CERCANAS"
+                return "Cerca a m\u00ed"
             }
             1 -> {
-                return "EXPLORA"
+                return "Mapa"
             }
             else -> {
                 return "NONE"

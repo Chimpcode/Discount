@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/myprogress"
+    android:oneshot="false">
+    <item android:drawable="@drawable/ic_sentiment_neutral_black_24dp" android:duration="150" />
+    <item android:drawable="@drawable/ic_sentiment_satisfied_black_24dp" android:duration="150" />
+    <item android:drawable="@drawable/ic_sentiment_very_satisfied_black_24dp" android:duration="150" />
+</animation-list>

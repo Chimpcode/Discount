@@ -7,25 +7,24 @@ import android.support.v4.app.Fragment
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.chimpcode.discount.R
 import com.chimpcode.discount.adapters.PromoAdapter
+import com.chimpcode.discount.data.ApiClient
+import com.chimpcode.discount.models.Post
 import kotlinx.android.synthetic.main.fragment_promo_list.view.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
-
-/**
- * A simple [Fragment] subclass.
- * Activities that contain this fragment must implement the
- * [PromoListFragment.OnFragmentInteractionListener] interface
- * to handle interaction events.
- * Use the [PromoListFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class PromoListFragment : Fragment() {
 
     private var mListener: IFragmentInteractionListener? = null
+    private var mAdapter: PromoAdapter? = null
+    val elements = ArrayList<Post> ()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,9 +34,8 @@ class PromoListFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         val fragmentView = inflater!!.inflate(R.layout.fragment_promo_list, container, false)
-        val elements = Array<String> (12, {a -> a.toString()})
 
-        val mAdapter = PromoAdapter(this@PromoListFragment.context, elements)
+        mAdapter = PromoAdapter(this@PromoListFragment.context, elements)
         val mLayoutManager : RecyclerView.LayoutManager= GridLayoutManager(this@PromoListFragment.context, 1)
 
         fragmentView.recycler.layoutManager = mLayoutManager
@@ -46,6 +44,47 @@ class PromoListFragment : Fragment() {
 
 
         return fragmentView
+    }
+
+    private fun fillData(post : Post)  {
+
+        elements.add(post)
+    }
+
+    fun fetchPosts() {
+
+        ApiClient.getService().listPosts().enqueue(object : Callback<Map<String, Post>> {
+            override fun onResponse(call: Call<Map<String, Post>>?, response: Response<Map<String, Post>>?) {
+                Log.d("HOME ACT","::: response ::: ")
+                if (response!!.isSuccessful) {
+                    Log.d("HOME ACT",response.body().toString())
+
+                    for ((label, post) in response.body()!!) {
+                        post.image = "http://13.90.253.208:9300/api/i/" + post.image
+                        fillData(post)
+                    }
+                }
+                mAdapter?.notifyDataSetChanged()
+            }
+
+            override fun onFailure(call: Call<Map<String, Post>>?, t: Throwable?) {
+                Log.d("HOME ACT","::: error ::: ")
+            }
+        })
+    }
+
+    override fun onStart() {
+        super.onStart()
+        fetchPosts()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        Log.d("ON RESUME", "size: "+ elements.size)
+        if (elements.size == 0) {
+            fetchPosts()
+        }
     }
 
     override fun onAttach(context: Context?) {
@@ -62,19 +101,10 @@ class PromoListFragment : Fragment() {
         mListener = null
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     *
-     *
-     * See the Android Training lesson [Communicating with Other Fragments](http://developer.android.com/training/basics/fragments/communicating.html) for more information.
-     */
-
     companion object {
         fun newInstance(): PromoListFragment {
             return PromoListFragment()
         }
     }
-}// Required empty public constructor
+}
+

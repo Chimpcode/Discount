@@ -1,21 +1,30 @@
 package com.chimpcode.discount
 
+import android.app.Activity
+import android.content.Intent
 import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.TabLayout
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.Toolbar
-import co.zsmb.materialdrawerkt.builders.accountHeader
-import co.zsmb.materialdrawerkt.builders.drawer
-import co.zsmb.materialdrawerkt.builders.footer
-import co.zsmb.materialdrawerkt.draweritems.badgeable.primaryItem
-import co.zsmb.materialdrawerkt.draweritems.divider
-import co.zsmb.materialdrawerkt.draweritems.profile.profile
+import android.util.Log
+import android.view.View
 import com.chimpcode.discount.adapters.PageAdapter
 import com.chimpcode.discount.fragments.IFragmentInteractionListener
-import com.chimpcode.discount.fragments.PromoListFragment
-import com.chimpcode.discount.fragments.PromoMapFragment
+import com.chimpcode.discount.utils.MkDrawer
+import com.mikepenz.materialdrawer.AccountHeader
+import com.mikepenz.materialdrawer.AccountHeaderBuilder
+import com.mikepenz.materialdrawer.Drawer
+import com.mikepenz.materialdrawer.DrawerBuilder
+import com.mikepenz.materialdrawer.model.DividerDrawerItem
+import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
+import com.mikepenz.materialdrawer.model.ProfileDrawerItem
+import com.mikepenz.materialdrawer.model.SecondaryDrawerItem
+import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem
 import kotlinx.android.synthetic.main.activity_home.*
+
+
 
 
 class HomeActivity : AppCompatActivity(), IFragmentInteractionListener{
@@ -24,11 +33,11 @@ class HomeActivity : AppCompatActivity(), IFragmentInteractionListener{
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        val discountToolbar : Toolbar = findViewById<Toolbar>(R.id.discount_toolbar)
+        val discountToolbar : Toolbar = findViewById(R.id.discount_toolbar)
         setSupportActionBar(discountToolbar)
-        createDrawer(discountToolbar)
+        MkDrawer.createOne(discountToolbar, this)
 
-        tabLayout!!.addTab(tabLayout.newTab())
+        tabLayout.addTab(tabLayout.newTab())
         tabLayout.addTab(tabLayout.newTab())
         tabLayout.tabGravity = TabLayout.GRAVITY_FILL
 
@@ -36,29 +45,9 @@ class HomeActivity : AppCompatActivity(), IFragmentInteractionListener{
         viewPager.adapter = adapter
 
         tabLayout.setupWithViewPager(viewPager)
+
     }
 
-    fun createDrawer(_toolbar : Toolbar) {
-
-        drawer {
-            toolbar =  _toolbar
-            accountHeader {
-                background = R.color.primary_dark
-                profile("Samantha", "samantha@gmail.com") {
-                    icon = R.drawable.ic_person
-                }
-            }
-            primaryItem("Ofertas") { icon = R.drawable.ic_stars}
-            divider {}
-            primaryItem("Cupones") { icon = R.drawable.ic_local_offer }
-            primaryItem("Favoritos") { icon = R.drawable.ic_favorite  }
-            primaryItem("Seguidos") { icon = R.drawable.ic_star }
-            primaryItem("Ajustes") {icon = R.drawable.ic_build}
-            footer{
-                primaryItem("About Us") { icon = R.drawable.ic_info_outline }
-            }
-        }
-    }
 
     override fun onFragmentInteraction(TAG: String, uri: Uri) {
     }

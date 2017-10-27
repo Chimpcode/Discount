@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="show_bass"
+        android:summaryOff="Hidden"
+        android:summaryOn="Shown"
+        android:title="Mostrar Algo"/>
+    <SeekBarPreference
+        android:key="keyName"
+        android:title="Property Label"
+        android:summary="Summary."
+        android:max="5"
+        android:defaultValue="0" />
+</PreferenceScreen>

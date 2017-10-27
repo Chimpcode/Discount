@@ -42,6 +42,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/title_login"
                     android:text="DISCOUNT"
+                    android:fontFamily="@font/bebas_neue"
                     android:textColor="@color/white"
                     android:textAlignment="center"
                     android:textSize="70dp" />

@@ -23,9 +23,90 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <com.robertlevonyan.views.chip.Chip
-                    chipcloud:chipText="HOLA!"
+                    chipcloud:chipText="Bazar"
                     chipcloud:textColor="@color/md_white_1000"
                     chipcloud:backgroundColor="@color/colorAccent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:padding="4dp">
+                </com.robertlevonyan.views.chip.Chip>
+                <com.robertlevonyan.views.chip.Chip
+                    chipcloud:chipText="Restaurantes"
+                    chipcloud:textColor="@color/md_white_1000"
+                    chipcloud:backgroundColor="@color/md_blue_400"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:padding="4dp">
+                </com.robertlevonyan.views.chip.Chip>
+                <com.robertlevonyan.views.chip.Chip
+                    chipcloud:chipText="Ropas"
+                    chipcloud:textColor="@color/md_white_1000"
+                    chipcloud:backgroundColor="@color/md_green_400"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:padding="4dp">
+                </com.robertlevonyan.views.chip.Chip>
+                <com.robertlevonyan.views.chip.Chip
+                    chipcloud:chipText="Masajes"
+                    chipcloud:textColor="@color/md_white_1000"
+                    chipcloud:backgroundColor="@color/md_light_blue_400"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:padding="4dp">
+                </com.robertlevonyan.views.chip.Chip>
+                <com.robertlevonyan.views.chip.Chip
+                    chipcloud:chipText="Cosmetologia"
+                    chipcloud:textColor="@color/md_white_1000"
+                    chipcloud:backgroundColor="@color/md_purple_100"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:padding="4dp">
+                </com.robertlevonyan.views.chip.Chip>
+                <com.robertlevonyan.views.chip.Chip
+                    chipcloud:chipText="Viveres"
+                    chipcloud:textColor="@color/md_white_1000"
+                    chipcloud:backgroundColor="@color/md_red_400"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:padding="4dp">
+                </com.robertlevonyan.views.chip.Chip>
+                <com.robertlevonyan.views.chip.Chip
+                    chipcloud:chipText="Gimnasios"
+                    chipcloud:textColor="@color/md_white_1000"
+                    chipcloud:backgroundColor="@color/md_yellow_300"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:padding="4dp">
+                </com.robertlevonyan.views.chip.Chip>
+                <com.robertlevonyan.views.chip.Chip
+                    chipcloud:chipText="Tragos"
+                    chipcloud:textColor="@color/md_white_1000"
+                    chipcloud:backgroundColor="@color/md_cyan_300"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:padding="4dp">
+                </com.robertlevonyan.views.chip.Chip>
+                <com.robertlevonyan.views.chip.Chip
+                    chipcloud:chipText="Ternos"
+                    chipcloud:textColor="@color/md_white_1000"
+                    chipcloud:backgroundColor="@color/md_amber_400"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:padding="4dp">
+                </com.robertlevonyan.views.chip.Chip>
+                <com.robertlevonyan.views.chip.Chip
+                    chipcloud:chipText="Cine"
+                    chipcloud:textColor="@color/md_white_1000"
+                    chipcloud:backgroundColor="@color/md_deep_purple_300"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="4dp"
