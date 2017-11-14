@@ -3,13 +3,13 @@
     <CheckBoxPreference
         android:defaultValue="true"
         android:key="show_bass"
-        android:summaryOff="Hidden"
-        android:summaryOn="Shown"
-        android:title="Mostrar Algo"/>
+        android:summaryOff="Inactivo"
+        android:summaryOn="Activado"
+        android:title="Recibir notificaciones"/>
     <SeekBarPreference
         android:key="keyName"
-        android:title="Property Label"
-        android:summary="Summary."
+        android:title="Radio de busqueda"
+        android:summary="(en metros)"
         android:max="5"
         android:defaultValue="0" />
 </PreferenceScreen>

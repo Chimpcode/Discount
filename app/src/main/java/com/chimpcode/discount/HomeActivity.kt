@@ -23,8 +23,7 @@ import com.mikepenz.materialdrawer.model.ProfileDrawerItem
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem
 import kotlinx.android.synthetic.main.activity_home.*
-
-
+import kotlinx.android.synthetic.main.toolbar.view.*
 
 
 class HomeActivity : AppCompatActivity(), IFragmentInteractionListener{
@@ -34,6 +33,7 @@ class HomeActivity : AppCompatActivity(), IFragmentInteractionListener{
         setContentView(R.layout.activity_home)
 
         val discountToolbar : Toolbar = findViewById(R.id.discount_toolbar)
+        discountToolbar.toolbar_title.text = "Promociones"
         setSupportActionBar(discountToolbar)
         MkDrawer.createOne(discountToolbar, this)
 

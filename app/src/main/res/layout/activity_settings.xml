@@ -7,15 +7,13 @@
     tools:context="com.chimpcode.discount.SettingsActivity">
 
     <!-- Load the toolbar here -->
-    <com.chimpcode.discount.ui.GointToolbar
+    <com.chimpcode.discount.ui.views.GointToolbar
         android:id="@+id/goint_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        app:layout_constraintBottom_toTopOf="@+id/activity_settings"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
     <fragment
         android:id="@+id/activity_settings"

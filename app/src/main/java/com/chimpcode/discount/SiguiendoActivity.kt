@@ -13,6 +13,7 @@ import com.chimpcode.discount.models.Marca
 import com.chimpcode.discount.utils.MkDrawer
 import kotlinx.android.synthetic.main.activity_siguiendo.*
 import kotlinx.android.synthetic.main.fragment_promo_list.view.*
+import kotlinx.android.synthetic.main.toolbar.view.*
 
 class SiguiendoActivity : AppCompatActivity() {
 
@@ -33,6 +34,7 @@ class SiguiendoActivity : AppCompatActivity() {
         mAdapter.notifyDataSetChanged()
 
         val discountToolbar : Toolbar = findViewById<Toolbar>(R.id.discount_toolbar)
+        discountToolbar.toolbar_title.text = "Siguiendo"
         setSupportActionBar(discountToolbar)
         MkDrawer.createOne(discountToolbar, this)
     }

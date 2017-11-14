@@ -1,7 +1,6 @@
 package com.chimpcode.discount.fragments
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
@@ -14,14 +13,14 @@ import android.view.ViewGroup
 
 import com.chimpcode.discount.R
 import com.google.android.gms.maps.*
-import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.gms.maps.model.LatLng
 import android.support.v4.app.ActivityCompat
 import android.content.DialogInterface
 import android.location.Location
 import android.support.v7.app.AlertDialog
 import android.util.Log
 import com.chimpcode.discount.data.ApiClient
+import com.chimpcode.discount.models.MarkerData
+import com.chimpcode.discount.ui.views.MarkerInfoView
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.GoogleApi
 import com.google.android.gms.common.api.GoogleApiClient
@@ -30,8 +29,7 @@ import com.google.android.gms.location.LocationListener
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.places.Places
-import com.google.android.gms.maps.model.BitmapDescriptor
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.*
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.gms.tasks.Task
@@ -41,7 +39,8 @@ import org.jetbrains.annotations.NotNull
 
 class PromoMapFragment : Fragment(), OnMapReadyCallback,
         GoogleApiClient.OnConnectionFailedListener,
-        GoogleApiClient.ConnectionCallbacks, LocationListener {
+        GoogleApiClient.ConnectionCallbacks, LocationListener, GoogleMap.OnMarkerClickListener {
+
 
 
     val TAG : String = "PromoMapFragment"
@@ -55,6 +54,8 @@ class PromoMapFragment : Fragment(), OnMapReadyCallback,
     private var mLastKnownLocation : Location? = null
     private var mDefaultLocation : LatLng = LatLng(-11.892479, -77.046922)
     private var locationRequest : LocationRequest = LocationRequest.create()
+
+    private val allMarkersMap : MutableMap<Marker, List<MarkerData>> = HashMap<Marker, List<MarkerData>>()
 
     companion object {
         fun newInstance(): PromoMapFragment {
@@ -95,9 +96,13 @@ class PromoMapFragment : Fragment(), OnMapReadyCallback,
         return rootView
     }
 
-    override fun onMapReady(mMap: GoogleMap?) {
+    override fun onMapReady(mMap: GoogleMap) {
         this.mMap = mMap
 
+//        val markerInfoView = MarkerInfoView(activity, allMarkersMap)
+        mMap.setOnMarkerClickListener(this)
+//        mMap.setInfoWindowAdapter(markerInfoView)
+//        mMap.setOnInfoWindowClickListener(markerInfoView)
         getLocationPermission()
         updateLocationUI()
         getDeviceLocation()
@@ -140,7 +145,7 @@ class PromoMapFragment : Fragment(), OnMapReadyCallback,
                 getLocationPermission()
             }
         } catch (e: SecurityException)  {
-            Log.e("Exception: %s", e.message);
+            Log.e("Exception: %s", e.message)
         }
     }
 
@@ -157,7 +162,9 @@ class PromoMapFragment : Fragment(), OnMapReadyCallback,
         // A step later in the tutorial adds the code to get the device location.
 
         try {
+            Log.d("getDeviceLocation ::: ", "mLocationPermissionGranted : " + mLocationPermissionGranted.toString())
             if (mLocationPermissionGranted) {
+                Log.d("PROMOMAP ::: ", "location permision granted true")
                 val locationResult : Task<Location> = mFusedLocationClient!!.lastLocation
                 locationResult.addOnCompleteListener(activity, object : OnCompleteListener<Location> {
                     override fun onComplete(@NotNull task: Task<Location>) {
@@ -167,10 +174,17 @@ class PromoMapFragment : Fragment(), OnMapReadyCallback,
                                     LatLng(mLastKnownLocation!!.latitude, mLastKnownLocation!!.longitude),
                                     14f))
                             mMap?.animateCamera(CameraUpdateFactory.zoomTo(14f))
-                            mMap?.addMarker(MarkerOptions()
+                            val marker = mMap?.addMarker(MarkerOptions()
                                     .position(LatLng(mLastKnownLocation!!.latitude, mLastKnownLocation!!.longitude))
                                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_geo_place))
-                                    .title("I'm Here!"))
+                                    //.title("TIENDAS EL: 30% descuento en ROPAS"))
+                            )
+
+                            val promos : MutableList<MarkerData> = ArrayList<MarkerData>()
+                            promos.add(MarkerData("1","TIENDAS EL: 30% descuento en ROPAS", "disponible"))
+                            promos.add(MarkerData("1","TIENDAS EL: 40% descuento en ZAPATOS", "disponible"))
+
+                            allMarkersMap.put(marker!!, promos)
 
                         } else {
                             Log.d(TAG, "Current location is null. Using defaults.")
@@ -180,7 +194,7 @@ class PromoMapFragment : Fragment(), OnMapReadyCallback,
                             mMap?.addMarker(MarkerOptions()
                                     .position(mDefaultLocation)
                                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_geo_place))
-                                    .title("I'm Here!"))
+                                    .title("I'm Here! (Offline)"))
                             mMap!!.uiSettings.isMyLocationButtonEnabled = false
                         }
                     }
@@ -227,5 +241,15 @@ class PromoMapFragment : Fragment(), OnMapReadyCallback,
 
     }
 
+    override fun onMarkerClick(marker: Marker): Boolean {
+        val promos = allMarkersMap[marker]
+        Log.d(activity.localClassName.toString(), promos.toString())
 
+        val alertDialog = AlertDialog.Builder(activity).create()
+        alertDialog.setTitle("Alert")
+        alertDialog.setMessage(promos.toString())
+        alertDialog.show()
+
+        return true
+    }
 }

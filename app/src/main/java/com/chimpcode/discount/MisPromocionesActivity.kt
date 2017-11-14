@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.Toolbar
 import com.chimpcode.discount.utils.MkDrawer
+import kotlinx.android.synthetic.main.toolbar.view.*
 
 class MisPromocionesActivity : AppCompatActivity() {
 
@@ -12,6 +13,7 @@ class MisPromocionesActivity : AppCompatActivity() {
         setContentView(R.layout.activity_mis_promociones)
 
         val discountToolbar : Toolbar = findViewById<Toolbar>(R.id.discount_toolbar)
+        discountToolbar.toolbar_title.text = "Mis promociones"
         setSupportActionBar(discountToolbar)
         MkDrawer.createOne(discountToolbar, this)
 

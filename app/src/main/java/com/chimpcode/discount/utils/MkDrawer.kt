@@ -35,7 +35,7 @@ class MkDrawer () {
 
             val headerDrawer : AccountHeader = AccountHeaderBuilder()
                     .withActivity(act)
-                    .withHeaderBackground(R.drawable.header)
+                    .withHeaderBackground(R.drawable.header_goint)
                     .addProfiles(
                             ProfileDrawerItem().withName("Mike Penz")
                                     .withEmail("aaa@aaa.com")
@@ -65,6 +65,7 @@ class MkDrawer () {
                                 if (act.javaClass.simpleName != HomeActivity::class.java.simpleName) {
                                     val intent = Intent(act, HomeActivity::class.java)
                                     act.startActivity(intent)
+                                    act.finish()
                                 }
                             }
                             MIS_PROMOCIONES_POSITION -> {
