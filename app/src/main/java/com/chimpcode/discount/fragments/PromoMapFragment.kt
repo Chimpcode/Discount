@@ -18,9 +18,11 @@ import android.content.DialogInterface
 import android.location.Location
 import android.support.v7.app.AlertDialog
 import android.util.Log
+import android.view.Window
 import com.chimpcode.discount.data.ApiClient
 import com.chimpcode.discount.models.MarkerData
 import com.chimpcode.discount.ui.views.MarkerInfoView
+import com.chimpcode.discount.ui.views.PromoGeoItemsDialog
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.GoogleApi
 import com.google.android.gms.common.api.GoogleApiClient
@@ -242,14 +244,17 @@ class PromoMapFragment : Fragment(), OnMapReadyCallback,
     }
 
     override fun onMarkerClick(marker: Marker): Boolean {
-        val promos = allMarkersMap[marker]
+        val promos = allMarkersMap[marker]!!
         Log.d(activity.localClassName.toString(), promos.toString())
 
-        val alertDialog = AlertDialog.Builder(activity).create()
-        alertDialog.setTitle("Alert")
-        alertDialog.setMessage(promos.toString())
-        alertDialog.show()
-
+        initAndOpenPromoDialog(promos)
         return true
+    }
+
+    private fun initAndOpenPromoDialog (promos : List<MarkerData>) {
+
+        val promoListDialog = PromoGeoItemsDialog(context, promos)
+        promoListDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        promoListDialog.show()
     }
 }

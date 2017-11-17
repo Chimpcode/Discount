@@ -42,7 +42,6 @@ class PromoListFragment : Fragment() {
         fragmentView.recycler.itemAnimator = DefaultItemAnimator()
         fragmentView.recycler.adapter = mAdapter
 
-
         return fragmentView
     }
 
