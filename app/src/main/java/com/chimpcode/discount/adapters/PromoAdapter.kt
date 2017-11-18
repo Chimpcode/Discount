@@ -30,7 +30,7 @@ class PromoAdapter( _context :Context, _postList : List<Post>) : RecyclerView.Ad
 //        val result: String =  postList[position]
         if (holder != null) {
             holder.bindData(postList.get(position))
-            holder.getView().setOnClickListener {
+            holder.getView().likeButton.setOnClickListener {
 
                 val intent = Intent(context, PromoDetailActivity::class.java)
                 intent.putExtra("post", postList.get(position))
@@ -41,9 +41,6 @@ class PromoAdapter( _context :Context, _postList : List<Post>) : RecyclerView.Ad
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): PromoCardViewHolder {
         val itemView : View = LayoutInflater.from(parent?.context).inflate(R.layout.card_promo_layout, parent, false)
-
-        itemView.setOnClickListener {
-        }
 
         return PromoCardViewHolder(itemView)
     }

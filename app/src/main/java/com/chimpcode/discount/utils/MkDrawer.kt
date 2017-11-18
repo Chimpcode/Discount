@@ -8,12 +8,14 @@ import android.view.View
 import com.chimpcode.discount.*
 import com.mikepenz.materialdrawer.AccountHeader
 import com.mikepenz.materialdrawer.AccountHeaderBuilder
+import com.mikepenz.materialdrawer.Drawer
 import com.mikepenz.materialdrawer.DrawerBuilder
 import com.mikepenz.materialdrawer.model.DividerDrawerItem
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem
+import kotlinx.android.synthetic.main.toolbar.view.*
 
 /**
  * Created by anargu on 10/19/17.
@@ -21,7 +23,7 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem
 class MkDrawer () {
 
     companion object {
-        fun createOne(_toolbar: Toolbar, act : Activity) {
+        fun createOne(_toolbar: Toolbar, act : Activity): Drawer {
 
             val OFERTAS_POSITION = 1
             val MIS_PROMOCIONES_POSITION = 3
@@ -46,7 +48,7 @@ class MkDrawer () {
                     })
                     .build()
 
-            DrawerBuilder()
+            var drawer = DrawerBuilder()
                     .withActivity(act)
                     .withToolbar(_toolbar)
                     .withAccountHeader(headerDrawer)
@@ -90,6 +92,16 @@ class MkDrawer () {
                         true
                     })
                     .build()
+
+            if (act.localClassName == "PromoDetailActivity") {
+                _toolbar.alpha = 0.8f
+                _toolbar.toolbar_title.visibility = View.INVISIBLE
+                _toolbar.background = ContextCompat.getDrawable(act, R.drawable.back_toolbar)
+
+                drawer.actionBarDrawerToggle.isDrawerIndicatorEnabled = false
+            }
+
+            return drawer
         }
     }
 }

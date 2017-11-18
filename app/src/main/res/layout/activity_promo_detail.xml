@@ -64,7 +64,7 @@
                     android:layout_marginEnd="8dp"
                     android:src="@drawable/goint_avatar"
                     app:civ_border_width="2dp"
-                    app:civ_border_color="#FFFFF"/>
+                    app:civ_border_color="#FFFFFF"/>
 
                 <TextView
                     android:id="@+id/post_title"

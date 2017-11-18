@@ -1,7 +1,6 @@
 package com.chimpcode.discount.fragments
 
 import android.content.Context
-import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.DefaultItemAnimator
@@ -15,6 +14,7 @@ import com.chimpcode.discount.R
 import com.chimpcode.discount.adapters.PromoAdapter
 import com.chimpcode.discount.data.ApiClient
 import com.chimpcode.discount.models.Post
+import com.chimpcode.discount.models.PromLocation
 import kotlinx.android.synthetic.main.fragment_promo_list.view.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -45,7 +45,7 @@ class PromoListFragment : Fragment() {
         return fragmentView
     }
 
-    private fun fillData(post : Post)  {
+    private fun insertData(post : Post)  {
 
         elements.add(post)
     }
@@ -60,7 +60,7 @@ class PromoListFragment : Fragment() {
 
                     for ((label, post) in response.body()!!) {
                         post.image = "http://13.90.253.208:9300/api/i/" + post.image
-                        fillData(post)
+                        insertData(post)
                     }
                 }
                 mAdapter?.notifyDataSetChanged()
@@ -74,7 +74,29 @@ class PromoListFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        fetchPosts()
+
+//        fetchPosts()
+        inflateData()
+    }
+
+    fun inflateData() {
+
+        for (i in 1..10) {
+            val post = Post(i.toString(),
+                    "Store %d" + i,
+                    "a day ago",
+                    "Combo Doble + papas!!",
+                    "https://source.unsplash.com/random/700x500",
+                    "Super combo con papas",
+                    "Miraflores",
+                    PromLocation(-11.891828f, -77.043370f),
+                    4
+                    )
+
+            insertData(post)
+        }
+        mAdapter?.notifyDataSetChanged()
+
     }
 
     override fun onResume() {
@@ -82,7 +104,8 @@ class PromoListFragment : Fragment() {
 
         Log.d("ON RESUME", "size: "+ elements.size)
         if (elements.size == 0) {
-            fetchPosts()
+//            fetchPosts()
+            inflateData()
         }
     }
 
@@ -105,5 +128,6 @@ class PromoListFragment : Fragment() {
             return PromoListFragment()
         }
     }
+
 }
 

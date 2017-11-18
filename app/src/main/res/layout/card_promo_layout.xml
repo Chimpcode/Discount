@@ -41,23 +41,25 @@
                     android:text="CREPES AND WAFFLES"/>
 
                 <ImageButton
-                    android:id="@+id/imageButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/promo_title"
-                    android:layout_marginEnd="13dp"
-                    android:layout_toStartOf="@+id/imageButton2"
-                    android:background="@null"
-                    android:src="@drawable/ic_favorite" />
-
-                <ImageButton
-                    android:id="@+id/imageButton2"
+                    android:id="@+id/likeButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignEnd="@+id/promo_title"
                     android:layout_alignTop="@+id/promo_title"
                     android:background="@null"
+                    android:src="@drawable/ic_favorite"
+                    android:onClick="likePromoOnClick"/>
+
+                <ImageButton
+                    android:id="@+id/imageButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/promo_title"
+                    android:layout_marginEnd="13dp"
+                    android:layout_toStartOf="@+id/likeButton"
+                    android:background="@null"
                     android:src="@drawable/ic_reply" />
+
 
             </RelativeLayout>
 
