@@ -3,7 +3,7 @@ package com.chimpcode.discount
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.Toolbar
-import com.chimpcode.discount.utils.MkDrawer
+import com.chimpcode.discount.ui.views.MkDrawer
 import kotlinx.android.synthetic.main.toolbar.view.*
 
 class MisPromocionesActivity : AppCompatActivity() {

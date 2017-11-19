@@ -43,7 +43,8 @@ dependencies {
     }
     compile 'com.mikepenz:fontawesome-typeface:4.7.0.1@aar'
     //    compile 'co.zsmb:materialdrawer-kt:1.1.0'
-    compile 'com.robertlevonyan.view:MaterialChipView:1.0.1'
+    api 'com.robertlevonyan.view:MaterialChipView:1.0.1'
+
 
 
 

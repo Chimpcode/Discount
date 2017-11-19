@@ -138,7 +138,7 @@
                         android:layout_height="30dp"
                         android:paddingTop="6dp"
                         android:paddingBottom="2dp"
-                        android:src="@drawable/ic_send"
+                        android:src="@drawable/ic_location_on"
                         android:tint="@color/primary"/>
                     <TextView
                         android:layout_width="match_parent"
@@ -194,16 +194,20 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="4dp"
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/label_additional_promos"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="4dp"
                 android:fontFamily="@font/nexa_bold"
                 android:text="@string/view_more_promos_title"
                 android:textColor="@color/primary" />
 
             <android.support.v7.widget.RecyclerView
+                android:id="@+id/additional_promos_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 

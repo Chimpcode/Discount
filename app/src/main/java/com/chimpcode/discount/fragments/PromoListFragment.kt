@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.chimpcode.discount.R
 import com.chimpcode.discount.adapters.PromoAdapter
+import com.chimpcode.discount.common.PromoConstants
 import com.chimpcode.discount.data.ApiClient
 import com.chimpcode.discount.models.Post
 import com.chimpcode.discount.models.PromLocation
@@ -23,8 +24,10 @@ import retrofit2.Response
 class PromoListFragment : Fragment() {
 
     private var mListener: IFragmentInteractionListener? = null
-    private var mAdapter: PromoAdapter? = null
     val elements = ArrayList<Post> ()
+    private val mAdapter: PromoAdapter by lazy {
+        PromoAdapter(context, elements, PromoConstants.CARD)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,19 +38,13 @@ class PromoListFragment : Fragment() {
         // Inflate the layout for this fragment
         val fragmentView = inflater!!.inflate(R.layout.fragment_promo_list, container, false)
 
-        mAdapter = PromoAdapter(this@PromoListFragment.context, elements)
-        val mLayoutManager : RecyclerView.LayoutManager= GridLayoutManager(this@PromoListFragment.context, 1)
+        val mLayoutManager : RecyclerView.LayoutManager= GridLayoutManager(context, 1)
 
         fragmentView.recycler.layoutManager = mLayoutManager
         fragmentView.recycler.itemAnimator = DefaultItemAnimator()
         fragmentView.recycler.adapter = mAdapter
 
         return fragmentView
-    }
-
-    private fun insertData(post : Post)  {
-
-        elements.add(post)
     }
 
     fun fetchPosts() {
@@ -60,7 +57,7 @@ class PromoListFragment : Fragment() {
 
                     for ((label, post) in response.body()!!) {
                         post.image = "http://13.90.253.208:9300/api/i/" + post.image
-                        insertData(post)
+                        mAdapter.insertSingleData(post)
                     }
                 }
                 mAdapter?.notifyDataSetChanged()
@@ -76,27 +73,7 @@ class PromoListFragment : Fragment() {
         super.onStart()
 
 //        fetchPosts()
-        inflateData()
-    }
-
-    fun inflateData() {
-
-        for (i in 1..10) {
-            val post = Post(i.toString(),
-                    "Store %d" + i,
-                    "a day ago",
-                    "Combo Doble + papas!!",
-                    "https://source.unsplash.com/random/700x500",
-                    "Super combo con papas",
-                    "Miraflores",
-                    PromLocation(-11.891828f, -77.043370f),
-                    4
-                    )
-
-            insertData(post)
-        }
-        mAdapter?.notifyDataSetChanged()
-
+        mAdapter.fillSampleData()
     }
 
     override fun onResume() {
@@ -105,7 +82,7 @@ class PromoListFragment : Fragment() {
         Log.d("ON RESUME", "size: "+ elements.size)
         if (elements.size == 0) {
 //            fetchPosts()
-            inflateData()
+            mAdapter.fillSampleData()
         }
     }
 

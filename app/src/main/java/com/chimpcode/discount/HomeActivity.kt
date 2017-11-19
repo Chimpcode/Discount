@@ -1,27 +1,13 @@
 package com.chimpcode.discount
 
-import android.app.Activity
-import android.content.Intent
 import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.TabLayout
-import android.support.v4.content.ContextCompat
 import android.support.v7.widget.Toolbar
-import android.util.Log
-import android.view.View
 import com.chimpcode.discount.adapters.PageAdapter
 import com.chimpcode.discount.fragments.IFragmentInteractionListener
-import com.chimpcode.discount.utils.MkDrawer
-import com.mikepenz.materialdrawer.AccountHeader
-import com.mikepenz.materialdrawer.AccountHeaderBuilder
-import com.mikepenz.materialdrawer.Drawer
-import com.mikepenz.materialdrawer.DrawerBuilder
-import com.mikepenz.materialdrawer.model.DividerDrawerItem
-import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
-import com.mikepenz.materialdrawer.model.ProfileDrawerItem
-import com.mikepenz.materialdrawer.model.SecondaryDrawerItem
-import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem
+import com.chimpcode.discount.ui.views.MkDrawer
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.toolbar.view.*
 
@@ -33,7 +19,7 @@ class HomeActivity : AppCompatActivity(), IFragmentInteractionListener{
         setContentView(R.layout.activity_home)
 
         val discountToolbar : Toolbar = findViewById(R.id.discount_toolbar)
-        discountToolbar.toolbar_title.text = "Promociones"
+        discountToolbar.toolbar_title.text = "Goint"
         setSupportActionBar(discountToolbar)
         MkDrawer.createOne(discountToolbar, this)
 

@@ -1,5 +1,7 @@
 package com.chimpcode.discount.models
 
+import com.chimpcode.discount.common.PromoConstants
+import com.chimpcode.discount.common.PromoViewType
 import java.io.Serializable
 
 /**
@@ -15,4 +17,7 @@ data class Post (
     val address : String = "",
     val location : PromLocation,
     val stock : Int = 0
-) : Serializable
+) : Serializable, PromoViewType {
+    override fun getViewType(): Int = PromoConstants.NULL
+
+}

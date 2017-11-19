@@ -1,18 +1,14 @@
 package com.chimpcode.discount
 
-import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
-import android.util.Log
-import com.chimpcode.discount.adapters.PromoAdapter
 import com.chimpcode.discount.adapters.SiguiendoAdapter
 import com.chimpcode.discount.models.Marca
-import com.chimpcode.discount.utils.MkDrawer
+import com.chimpcode.discount.ui.views.MkDrawer
 import kotlinx.android.synthetic.main.activity_siguiendo.*
-import kotlinx.android.synthetic.main.fragment_promo_list.view.*
 import kotlinx.android.synthetic.main.toolbar.view.*
 
 class SiguiendoActivity : AppCompatActivity() {

@@ -2,85 +2,72 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:chipcloud="http://schemas.android.com/apk/res-auto"
+    xmlns:ChimpChip="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    tools:context="com.chimpcode.discount.fragments.PromoListFragment">
+    tools:context="com.chimpcode.discount.fragments.PromoListFragment"
+    android:background="@color/semi_white">
 
     <!-- TODO: Update blank fragment layout -->
 
-    <LinearLayout
+    <android.support.v7.widget.CardView
         android:id="@+id/pinsContainer"
 
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:elevation="12dp">
 
         <HorizontalScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="44dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="2dp"
+            android:scrollbars="none">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
-                <com.robertlevonyan.views.chip.Chip
-                    chipcloud:chipText="Restaurantes"
-                    chipcloud:textColor="@color/md_white_1000"
-                    chipcloud:backgroundColor="@color/colorAccent"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
-                    android:padding="4dp">
-                </com.robertlevonyan.views.chip.Chip>
-                <com.robertlevonyan.views.chip.Chip
-                    chipcloud:chipText="Bares y Discotecas"
-                    chipcloud:textColor="@color/md_white_1000"
-                    chipcloud:backgroundColor="@color/colorAccent"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
-                    android:padding="4dp">
-                </com.robertlevonyan.views.chip.Chip>
-                <com.robertlevonyan.views.chip.Chip
-                    chipcloud:chipText="Entretenimiento"
-                    chipcloud:textColor="@color/md_white_1000"
-                    chipcloud:backgroundColor="@color/colorAccent"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
-                    android:padding="4dp">
-                </com.robertlevonyan.views.chip.Chip>
-                <com.robertlevonyan.views.chip.Chip
-                    chipcloud:chipText="Belleza y Spa"
-                    chipcloud:textColor="@color/md_white_1000"
-                    chipcloud:backgroundColor="@color/colorAccent"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
-                    android:padding="4dp">
-                </com.robertlevonyan.views.chip.Chip>
 
-                <com.robertlevonyan.views.chip.Chip
-                    android:layout_width="match_parent"
+                <com.chimpcode.discount.ui.views.ChimpChip
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="4dp"
-                    android:padding="4dp"
-                    chipcloud:backgroundColor="@color/colorAccent"
-                    chipcloud:chipText="Productos"
-                    chipcloud:textColor="@color/md_white_1000"/>
-                <com.robertlevonyan.views.chip.Chip
-                    chipcloud:chipText="Servicios"
-                    chipcloud:textColor="@color/md_white_1000"
-                    chipcloud:backgroundColor="@color/colorAccent"
-                    android:layout_width="match_parent"
+                    ChimpChip:chip_text="Servicios"
+                    ChimpChip:chip_type="selected"/>
+                <com.chimpcode.discount.ui.views.ChimpChip
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="4dp"
-                    android:padding="4dp">
-                </com.robertlevonyan.views.chip.Chip>
-
+                    ChimpChip:chip_text="Productos"
+                    ChimpChip:chip_type="available"/>
+                <com.chimpcode.discount.ui.views.ChimpChip
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    ChimpChip:chip_text="Otros"
+                    ChimpChip:chip_type="available"/>
+                <com.chimpcode.discount.ui.views.ChimpChip
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    ChimpChip:chip_text="Otros"
+                    ChimpChip:chip_type="selected"/>
+                <com.chimpcode.discount.ui.views.ChimpChip
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    ChimpChip:chip_text="Otros"
+                    ChimpChip:chip_type="selected"/>
+                <com.chimpcode.discount.ui.views.ChimpChip
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    ChimpChip:chip_text="Otros"
+                    ChimpChip:chip_type="available"/>
             </LinearLayout>
 
         </HorizontalScrollView>
-    </LinearLayout>
+    </android.support.v7.widget.CardView>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler"

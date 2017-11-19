@@ -46,8 +46,10 @@
         <activity
             android:name=".SignupActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".SettingsActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".SettingsActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".ProfileStoreActivity"></activity>
     </application>
 
 </manifest>

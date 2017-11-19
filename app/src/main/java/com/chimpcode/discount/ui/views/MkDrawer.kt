@@ -1,4 +1,4 @@
-package com.chimpcode.discount.utils
+package com.chimpcode.discount.ui.views
 
 import android.app.Activity
 import android.content.Intent
@@ -93,12 +93,17 @@ class MkDrawer () {
                     })
                     .build()
 
-            if (act.localClassName == "PromoDetailActivity") {
-                _toolbar.alpha = 0.8f
-                _toolbar.toolbar_title.visibility = View.INVISIBLE
-                _toolbar.background = ContextCompat.getDrawable(act, R.drawable.back_toolbar)
+            when(act.localClassName) {
+                "ProfileStoreActivity",
+                "PromoDetailActivity" -> {
+                    _toolbar.alpha = 0.8f
+                    _toolbar.toolbar_title.visibility = View.INVISIBLE
+                    _toolbar.background = ContextCompat.getDrawable(act, R.drawable.back_toolbar)
 
-                drawer.actionBarDrawerToggle.isDrawerIndicatorEnabled = false
+                    drawer.actionBarDrawerToggle.isDrawerIndicatorEnabled = false
+                }
+            }
+            if (act.localClassName == "PromoDetailActivity") {
             }
 
             return drawer

@@ -2,6 +2,7 @@ package com.chimpcode.discount.adapters
 
 import android.content.Context
 import android.content.Intent
+import android.support.v4.util.SparseArrayCompat
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -10,59 +11,73 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.chimpcode.discount.PromoDetailActivity
 import com.chimpcode.discount.R
+import com.chimpcode.discount.common.GeoPromoConstants
+import com.chimpcode.discount.common.PromoConstants
+import com.chimpcode.discount.common.PromoDelegateAdapter
 import com.chimpcode.discount.models.Post
+import com.chimpcode.discount.models.PromLocation
 import kotlinx.android.synthetic.main.card_promo_layout.view.*
 
 /**
  * Created by anargu on 9/2/17.
  */
-class PromoAdapter( _context :Context, _postList : List<Post>) : RecyclerView.Adapter<PromoAdapter.PromoCardViewHolder>() {
+class PromoAdapter(
+        _context :Context, _items : ArrayList<Post>,
+        private val viewType : Int
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val context : Context = _context
-    private val postList: List<Post>
+    private val items: ArrayList<Post>
+    private var delegateAdapters = SparseArrayCompat<PromoDelegateAdapter>()
 
     init {
-        postList = _postList
+        delegateAdapters.put(PromoConstants.CARD, CardPromoAdapter(context))
+        delegateAdapters.put(PromoConstants.GRID, GridPromoAdapter(context))
+        delegateAdapters.put(PromoConstants.MINI, MiniPromoAdapter(context))
+        items = _items
     }
 
-    override fun onBindViewHolder(holder: PromoCardViewHolder?, position: Int) {
+    fun setData(_items : List<Post>) {
+        items.clear()
+        items.addAll(_items)
+        notifyDataSetChanged()
+    }
 
-//        val result: String =  postList[position]
-        if (holder != null) {
-            holder.bindData(postList.get(position))
-            holder.getView().likeButton.setOnClickListener {
+    fun insertSingleData(item : Post) {
+        items.add(item)
+        notifyDataSetChanged()
+    }
 
-                val intent = Intent(context, PromoDetailActivity::class.java)
-                intent.putExtra("post", postList.get(position))
-                context.startActivity(intent)
-            }
+    fun fillSampleData() {
+
+        for (i in 1..12) {
+            items.add(Post(
+                    i.toString(),"Burger King", "2 days ago", "Promo A Mega Combo",
+                    "https://source.unsplash.com/random/600x600",
+                    "Simple descripcion",
+                    "Miraflores",
+                    PromLocation(-11.891822f, -77.043371f),
+                    3
+            ))
         }
+
+        notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): PromoCardViewHolder {
-        val itemView : View = LayoutInflater.from(parent?.context).inflate(R.layout.card_promo_layout, parent, false)
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        delegateAdapters[viewType].onBindViewHolder(holder, items[position])
+    }
 
-        return PromoCardViewHolder(itemView)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return delegateAdapters[viewType].onCreateViewHolder(parent)
     }
 
     override fun getItemCount(): Int {
-        return postList.size
+        return items.size
     }
 
-
-    class PromoCardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
-        fun bindData(post: Post) {
-            itemView.promo_title.text = post.title
-            Glide.with(itemView)
-                    .load(post.image)
-                    .into(itemView.image_post)
-        }
-
-        fun getView() : View {
-            return itemView
-        }
-
+    override fun getItemViewType(position: Int): Int {
+        return viewType
     }
 }
 

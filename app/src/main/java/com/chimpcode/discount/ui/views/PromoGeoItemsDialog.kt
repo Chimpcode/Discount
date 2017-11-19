@@ -31,7 +31,7 @@ class PromoGeoItemsDialog(private val ctx: Context,
         list_promo.layoutManager = mlayoutManager
         list_promo.itemAnimator = DefaultItemAnimator()
         list_promo.addItemDecoration(DividerItemDecoration(ctx, DividerItemDecoration.VERTICAL))
-        this.list_promo.adapter = GeoPromoDialogAdapter()
+        this.list_promo.adapter = GeoPromoDialogAdapter(context)
         (list_promo.adapter as GeoPromoDialogAdapter).setData(promos)
 
 

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ChimpChip">
+        <attr name="chip_type" format="integer">
+            <enum name="selected" value="1" />
+            <enum name="available" value="0" />
+        </attr>
+
+        <attr name="chip_text" format="string">
+        </attr>
+    </declare-styleable>
+</resources>
