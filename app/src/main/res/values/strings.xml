@@ -111,4 +111,40 @@
     <string name="titulo_oferta_sample">Combo doble + papas !!! - 30% off - BK Miraflores</string>
     <string name="detalles_title">Detalles</string>
     <string name="view_more_promos_title">Otras promos de %s</string>
+    <string name="request_permission_again">Goint requiere que aceptes los permisos para un correcto funcionamiento</string>
+    <string name="search_near_posts_by_location_range">search_near_posts_by_location_range</string>
+    <string name="search_text_actionbar">Search</string>
+    <string name="search_hint">Search</string>
+
+    <string name="facebook_app_id">145073776168729</string>
+    <string name="fb_login_protocol_scheme">fb145073776168729</string>
+
+    <string name="terms_and_conditions">
+        Estas condiciones aplican a todos los beneficios y/o promociones\n
+Goint, a menos que en la publicación se especifique lo contrario.\n
+- No válido para mayoristas.\n
+- No acumulable con otras promociones.\n
+- Prohibida la venta de bebidas alcohólicas a menores de 18
+años. Consumir bebidas alcohólicas en exceso es dañino para la
+salud.\n
+- Se requiere mostrar la promoción Goint en el dispositivo celular
+del titular.\n
+- Luego de la fecha de expiración de la promoción y/o beneficio
+no es posible realizar gestiones de cambio y devolución.\n
+- Menores de edad deben asistir acompañados por un adulto.\n
+- Goint es un intermediario comercial, en ese sentido el
+prestador directo del servicio es el responsable de brindar un
+servicio idóneo a cada consumidor.\n
+- Puedes usar todos los Goint que quieras en distintas fechas.
+    </string>
+    <string name="terms_and_conditions_label">TÉRMINOS Y CONDICIONES</string>
+    <string name="facebook_user_id">facebook_id</string>
+    <string name="terms_and_conditions_title_by_company">Términos y Condiciones de la empresa</string>
+    <string name="user_id">user_id</string>
+    <string name="fullname">fullname</string>
+    <string name="password">password</string>
+    <string name="email_user">email</string>
+    <string name="user_info">USER_INFO</string>
+    <string name="goint_phrase">Más que un beneficio</string>
+    <string name="following_indication">Al suscribirse en las marcas deseadas. Te notificaremos cuando aparezcan nuevas promociones de estas.</string>
 </resources>

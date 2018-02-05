@@ -1,0 +1,23 @@
+mutation CreateUser($fullname: String!, $facebookAccount: String, $email: String!, $username: String!, $password: String!) {
+  user: createUser(
+    fullName: $fullname,
+    facebookAccount: $facebookAccount,
+    email: $email,
+    username: $username,
+    password: $password
+  ) {
+    id
+    fullName
+    username
+    password
+    email
+    gender
+    group
+    facebookAccount
+    myPromotions {
+        id
+    }
+    password
+    age
+  }
+}

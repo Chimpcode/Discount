@@ -8,7 +8,7 @@
 
 
     <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/profile_image"
+        android:id="@+id/company_image"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_marginBottom="8dp"
@@ -29,21 +29,37 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="24dp"
         android:text="TextView"
-        android:textColor="@color/colorAccent"
+        android:textColor="@color/md_black_1000"
         android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/profile_image"
+        app:layout_constraintStart_toEndOf="@+id/company_image"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.6" />
 
-    <CheckBox
-        android:id="@+id/checkBox"
-        android:layout_width="36dp"
-        android:layout_height="wrap_content"
+
+    <me.rishabhkhanna.customtogglebutton.CustomToggleButton
+        android:id="@+id/subscribed_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="26dp"
+
+        android:layout_gravity="center"
+
         android:layout_marginBottom="24dp"
         android:layout_marginEnd="24dp"
         android:layout_marginTop="24dp"
-        android:checked="true"
+
+        android:textSize="12dp"
+        app:radius="1dp"
+        app:borderWidth="4dp"
+
+        android:textOff="SUSCRIBIRSE"
+        app:uncheckedColor="@color/md_grey_600"
+        app:uncheckedTextColor="@color/md_grey_600"
+
+        android:textOn="SUSCRITO"
+        app:checkedColor="@color/colorPrimary"
+        app:checkedTextColor="@color/white"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

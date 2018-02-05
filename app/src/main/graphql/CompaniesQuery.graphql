@@ -1,0 +1,11 @@
+query CompanyQuery ($company_name: String) {
+    companies: allCompanies (
+        filter: {
+            commercialName_contains: $company_name
+        }
+    ) {
+        id
+        commercialName
+        logoImage
+    }
+}

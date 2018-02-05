@@ -1,0 +1,13 @@
+mutation AddToCompanySubscription ($companyId: ID!, $userId: ID!) {
+    result: addToCompanyFollowers(
+        companiesFollowingCompanyId: $companyId,
+        followersUserId: $userId
+    ) {
+        followersUser{
+            id
+        }
+        companiesFollowingCompany{
+            id
+        }
+    }
+}

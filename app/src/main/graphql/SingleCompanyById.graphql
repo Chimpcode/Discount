@@ -1,0 +1,23 @@
+query CompanyById ($companyId: ID) {
+  Company(id: $companyId) {
+    id
+    email
+    ruc
+    termsConditions
+    socialReason
+    commercialName
+    logoImage
+    posts {
+      id
+      title
+      createdAt
+      image
+      shows
+      description
+      by {
+        id
+        commercialName
+      }
+    }
+  }
+}

@@ -1,146 +1,94 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
-    android:orientation="vertical"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.chimpcode.discount.LoginActivity"
-    android:background="@drawable/background_simple">
+    tools:context="com.chimpcode.discount.activities.LoginActivity">
+<!--
+    android:background="@drawable/background_simple"-->
 
     <!-- Login progress -->
+    <com.chimpcode.discount.ui.views.VideoBackground
+        android:id="@+id/video_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@color/login_video_background"/>
+
     <ProgressBar
         android:id="@+id/login_progress"
         style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:visibility="gone" />
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <ScrollView
-        android:id="@+id/login_form"
+
+    <ImageView
+        android:id="@+id/imageView4"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
-            android:id="@+id/email_login_form"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingBottom="12dp">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:scaleX="0.8"
-                    android:scaleY="0.8"
-                    android:src="@drawable/logo_white" />
-            </LinearLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:paddingHorizontal="16dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColorHint="@color/white">
-
-                <AutoCompleteTextView
-                    android:id="@+id/email"
-                    android:textColor="@color/white"
-
-                    android:drawableStart="@drawable/ic_person"
-                    android:drawablePadding="10dp"
-                    android:drawableTint="@color/white"
-
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/prompt_email"
-                    android:inputType="textEmailAddress"
-                    android:maxLines="1"
-                    android:singleLine="true" />
-
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:paddingHorizontal="16dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColorHint="@color/white">
-
-                <EditText
-                    android:id="@+id/password"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/prompt_password"
-
-                    android:drawableStart="@drawable/ic_https"
-                    android:drawablePadding="10dp"
-                    android:drawableTint="@color/white"
-
-                    android:imeActionId="6"
-                    android:imeActionLabel="@string/action_sign_in_short"
-                    android:imeOptions="actionUnspecified"
-                    android:inputType="textPassword"
-                    android:textColor="@color/white"
-                    android:maxLines="1"
-                    android:singleLine="true" />
-
-            </android.support.design.widget.TextInputLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:gravity="center_horizontal"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/email_sign_in_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/action_sign_in"
-                    android:textStyle="bold"
-                    android:theme="@style/AppTheme.ButtonColored" />
-
-            </LinearLayout>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:textAlignment="center"
-                android:text="@string/login_text_1"/>
-
-            <!--<com.facebook.login.widget.LoginButton-->
-                <!--android:id="@+id/facebookLogin"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_width="match_parent">-->
-
-            <!--</com.facebook.login.widget.LoginButton>-->
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:textAlignment="center"
-                android:text="@string/login_text_2"/>
-            <Button
-                android:id="@+id/sign_up_button"
-                style="@style/AppTheme.ButtonBorderless"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/sign_up_button"
-                android:textStyle="bold" />
+        android:layout_height="157dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:scaleX="0.8"
+        android:scaleY="0.8"
+        android:src="@drawable/logo_white"
+        app:layout_constraintBottom_toTopOf="@+id/textView3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/video_background"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
-        </LinearLayout>
-    </ScrollView>
-</LinearLayout>
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageView4"
+        android:layout_marginTop="16dp"
+        android:layout_toEndOf="@+id/login_progress"
+        android:fontFamily="@font/nexa_bold"
+        android:text="@string/goint_phrase"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="18dp"
+        app:layout_constraintBottom_toTopOf="@+id/email_sign_in_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/email_sign_in_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView3"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="81dp"
+        android:text="PRUEBA"
+        android:textStyle="bold"
+        android:theme="@style/AppTheme.ButtonColored"
+        tools:layout_editor_absoluteX="148dp"
+        tools:layout_editor_absoluteY="309dp" />
+
+
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/login_button"
+        style="@style/FacebookLoginButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/email_sign_in_button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/video_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/imageView4"
+        app:layout_constraintTop_toBottomOf="@+id/email_sign_in_button" />
+
+
+</RelativeLayout>

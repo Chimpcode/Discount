@@ -1,0 +1,12 @@
+query GetUserByFacebookId($facebookId: String) {
+    users: allUsers(filter: { facebookAccount : $facebookId }, first: 1) {
+        id
+        fullName
+        email
+        gender
+        group
+        username
+        password
+        age
+    }
+}

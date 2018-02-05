@@ -1,0 +1,60 @@
+query FetchAllPosts($search_text: String, $filterByCategory: [String!], $longitude_lt: Float!, $longitude_gt: Float!, $latitude_lt: Float!, $latitude_gt: Float!) {
+    posts: allPosts (
+        filter: {
+            OR: [
+               { title_contains: $search_text } ,
+               { tags_contains: $search_text }
+            ],
+            by: {
+                categories_some: {
+                    name_in: $filterByCategory
+                }
+            },
+            locationByStores_some: {
+                locations_some: {
+                    AND: [
+                        { latitude_gt:  $latitude_gt},
+                        { latitude_lt:  $latitude_lt},
+                        { longitude_gt:  $longitude_gt},
+                        { longitude_lt:  $longitude_lt}
+                    ]
+                }
+            }
+        }
+    ) {
+    id
+    createdAt
+    title
+    image
+    address
+    shows
+    description
+    by {
+        id
+        commercialName,
+        email
+    }
+    locationByStores {
+        id
+        name
+        locations {
+            longitude
+            latitude
+        }
+        postsAssigned {
+            id
+            createdAt
+            title
+            image
+            address
+            shows
+            description
+            by {
+                id
+                commercialName,
+                email
+            }
+        }
+    }
+  }
+}

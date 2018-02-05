@@ -7,7 +7,7 @@ import com.chimpcode.discount.R
 import com.chimpcode.discount.common.PromoDelegateAdapter
 import com.chimpcode.discount.common.PromoViewType
 import com.chimpcode.discount.common.extensions.inflate
-import com.chimpcode.discount.models.MarkerData
+import com.chimpcode.discount.data.GeoPost
 import kotlinx.android.synthetic.main.dialog_geo_promo_item.view.*
 
 /**
@@ -19,14 +19,14 @@ class GeoPromoViewItemAdapter(ctx : Context) : PromoDelegateAdapter {
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: PromoViewType) {
         holder as TurnsViewHolder
-        holder.bind(item as MarkerData)
+        holder.bind(item as GeoPost)
     }
 
     class TurnsViewHolder(parent : ViewGroup) : RecyclerView.ViewHolder(
             parent.inflate(R.layout.dialog_geo_promo_item)) {
 
-        fun bind(item : MarkerData) {
-            itemView.promo_text.text = item.label
+        fun bind(item : GeoPost) {
+            itemView.promo_text.text = item.title
         }
     }
 }

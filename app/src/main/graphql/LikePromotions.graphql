@@ -1,0 +1,5 @@
+mutation LikePromotionMutation($postId: ID, $userId: ID) {
+  result: addToPromotionsLikeByUsers(myPromotionsPostId: $postId, usersLikedUserId: $userId) {
+    usersLikedUser { id }, myPromotionsPost { id }
+  }
+}

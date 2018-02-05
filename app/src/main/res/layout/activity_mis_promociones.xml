@@ -4,12 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.chimpcode.discount.MisPromocionesActivity">
+    tools:context="com.chimpcode.discount.activities.MisPromocionesActivity">
 
     <!-- Load the toolbar here -->
     <com.chimpcode.discount.ui.views.GointToolbar
         android:id="@+id/goint_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/goint_toolbar"></android.support.v7.widget.RecyclerView>
 
 </android.support.constraint.ConstraintLayout>

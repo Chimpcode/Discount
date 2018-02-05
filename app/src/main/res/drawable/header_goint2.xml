@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <bitmap
+            android:src="@drawable/header_goint">
+        </bitmap>
+    </item>
+    <item
+        android:id="@+id/header_color">
+        <shape>
+            <solid
+                android:color="@color/bellezaColor"
+                />
+        </shape>
+    </item>
+</layer-list>

@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <CheckBoxPreference
-        android:defaultValue="true"
-        android:key="show_bass"
-        android:summaryOff="Inactivo"
-        android:summaryOn="Activado"
-        android:title="Recibir notificaciones"/>
     <SeekBarPreference
-        android:key="keyName"
+        android:key="slider_picker"
         android:title="Radio de busqueda"
         android:summary="(en metros)"
-        android:max="5"
-        android:defaultValue="0" />
+        android:max="20"
+        android:defaultValue="5" />
+    <CheckBoxPreference
+        android:key="activate_notification"
+        android:title="Activar Notificaciones"
+        android:textSize="14dp"
+        android:summary="Se te notificara cuando tus marcas favorites saquen una promocion"
+        android:defaultValue="true"/>
 </PreferenceScreen>

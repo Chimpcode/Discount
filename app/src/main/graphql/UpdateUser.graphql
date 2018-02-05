@@ -1,0 +1,17 @@
+mutation UpdateUser($fullname: String, $facebookAccount: String) {
+  user: updateUser(
+    fullName: $fullname,
+    facebookAccount: $facebookAccount,
+  ) {
+    id
+    fullName
+    email
+    gender
+    group
+    myPromotions {
+        id
+    }
+    password
+    age
+  }
+}

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.chimpcode.discount.SettingsActivity">
+    tools:context="com.chimpcode.discount.activities.SettingsActivity">
 
     <!-- Load the toolbar here -->
     <com.chimpcode.discount.ui.views.GointToolbar

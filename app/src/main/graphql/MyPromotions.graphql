@@ -1,0 +1,23 @@
+query MyPromotionsByUser($userId: ID) {
+    user: User( id: $userId ) {
+        id
+        myPromotions {
+            id
+            createdAt
+            title
+            description
+            createdAt
+            image
+            shows
+            address
+            by {
+                id
+                commercialName
+                categories {
+                    id
+                    alias, name, tags
+                }
+            }
+        }
+    }
+}

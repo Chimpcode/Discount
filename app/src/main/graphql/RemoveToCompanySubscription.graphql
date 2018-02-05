@@ -1,0 +1,13 @@
+mutation RemoveFromCompanySubscription ($companyId: ID!, $userId: ID!) {
+    result: removeFromCompanyFollowers(
+        companiesFollowingCompanyId: $companyId,
+        followersUserId: $userId
+    ) {
+        followersUser{
+            id
+        }
+        companiesFollowingCompany{
+            id
+        }
+    }
+}

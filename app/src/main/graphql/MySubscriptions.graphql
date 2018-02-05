@@ -1,0 +1,10 @@
+query MySubscriptionsByUser($userId: ID) {
+    user: User( id: $userId ) {
+        id
+        companiesFollowing {
+            id
+            commercialName
+            logoImage
+        }
+    }
+}

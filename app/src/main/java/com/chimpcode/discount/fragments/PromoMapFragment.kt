@@ -1,9 +1,9 @@
 package com.chimpcode.discount.fragments
 
-import android.Manifest
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
@@ -13,200 +13,325 @@ import android.view.ViewGroup
 
 import com.chimpcode.discount.R
 import com.google.android.gms.maps.*
-import android.support.v4.app.ActivityCompat
-import android.content.DialogInterface
 import android.location.Location
-import android.support.v7.app.AlertDialog
+import android.support.design.widget.Snackbar
 import android.util.Log
 import android.view.Window
-import com.chimpcode.discount.data.ApiClient
-import com.chimpcode.discount.models.MarkerData
-import com.chimpcode.discount.ui.views.MarkerInfoView
 import com.chimpcode.discount.ui.views.PromoGeoItemsDialog
-import com.google.android.gms.common.ConnectionResult
-import com.google.android.gms.common.api.GoogleApi
-import com.google.android.gms.common.api.GoogleApiClient
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationListener
-import com.google.android.gms.location.LocationRequest
-import com.google.android.gms.location.LocationServices
-import com.google.android.gms.location.places.Places
+import com.google.android.gms.location.*
 import com.google.android.gms.maps.model.*
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.gms.tasks.Task
 import kotlinx.android.synthetic.main.fragment_promo_map.view.*
-import org.jetbrains.annotations.NotNull
+import com.chimpcode.discount.data.*
+import com.chimpcode.discount.viewmodels.ListPostViewModel
+import com.github.clans.fab.FloatingActionButton
+import kotlinx.android.synthetic.main.fragment_promo_map.*
 
 
-class PromoMapFragment : Fragment(), OnMapReadyCallback,
-        GoogleApiClient.OnConnectionFailedListener,
-        GoogleApiClient.ConnectionCallbacks, LocationListener, GoogleMap.OnMarkerClickListener {
+class PromoMapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener, View.OnClickListener {
 
+//    FRAGMENT
+    private val TAG : String = "PromoMapFragment *** "
+    private var mListener: IFragmentInteractionListener? = null
 
+//    CATEGORIES
+    private var fabIds : ArrayList<Int> = ArrayList()
 
-    val TAG : String = "PromoMapFragment"
-
+//    LOCATION, MAPS, PERMISSIONS
+    private val MY_PERMISSIONS_REQUEST_LOCATION: Int = 101
     private var mFusedLocationClient : FusedLocationProviderClient? = null
     private var mMap : GoogleMap? = null
-    private var mGoogleApiClient : GoogleApiClient? = null
     private var mLocationPermissionGranted : Boolean = false
-    private var mListener: IFragmentInteractionListener? = null
-    private val MY_PERMISSIONS_REQUEST_LOCATION: Int = 101
-    private var mLastKnownLocation : Location? = null
-    private var mDefaultLocation : LatLng = LatLng(-11.892479, -77.046922)
-    private var locationRequest : LocationRequest = LocationRequest.create()
+    private var mRequestingLocationUpdates : Boolean = false
+    private var isCenteredInMyLocation : Boolean = false
 
-    private val allMarkersMap : MutableMap<Marker, List<MarkerData>> = HashMap<Marker, List<MarkerData>>()
+//    CURRENT/PREV LOCATION
+    private var mlocationCallback : LocationCallback? = null
+//    POSITION MARKER - STORE
+    private var positionStoreHashMap: HashMap<GLocation, Store>? = null
+//    VIEW_MODEL
+    private var listPostViewModel: ListPostViewModel? = null
 
-    companion object {
-        fun newInstance(): PromoMapFragment {
-            val fragment = PromoMapFragment()
-            val args = Bundle()
-            fragment.arguments = args
-            return fragment
-        }
-    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-        locationRequest.interval = 1000
-        locationRequest.fastestInterval= 1000
-
-        mGoogleApiClient = GoogleApiClient.Builder(context)
-                .enableAutoManage(activity/* FragmentActivity */,
-                        this /* OnConnectionFailedListener */)
-                .addConnectionCallbacks(this)
-                .addApi(LocationServices.API)
-                .addApi(Places.GEO_DATA_API)
-                .addApi(Places.PLACE_DETECTION_API)
-                .build()
-        mGoogleApiClient?.connect()
-
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(activity)
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(activity!!)
+        listPostViewModel = ViewModelProviders.of(activity!!)[ListPostViewModel::class.java]
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        val rootView = inflater!!.inflate(R.layout.fragment_promo_map, container, false)
-        rootView.mapView.onCreate(savedInstanceState)
-        rootView.mapView.onResume() // needed to get the map to display immediately
-        rootView.mapView.getMapAsync(this)
-        return rootView
+        return inflater.inflate(R.layout.fragment_promo_map, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        view.mapView.onCreate(savedInstanceState)
+        view.mapView.onResume() // needed to get the map to display immediately
+        view.mapView.getMapAsync(this)
+
+        val categories : Array<GointCategory>? = listPostViewModel!!.allCategoriesDataView
+        for (category : GointCategory in categories!!) {
+            fabIds.add(category.fabId)
+            val fab = view.findViewById<FloatingActionButton>(category.fabId) as FloatingActionButton
+            fab.labelText = category.text
+            fab.setOnClickListener(this)
+            fab.setLabelColors(
+                    ContextCompat.getColor(context!!, R.color.gray),
+                    ContextCompat.getColor(context!!, R.color.gray_ripple),
+                    ContextCompat.getColor(context!!, R.color.gray_ripple)
+            )
+            fab.setLabelTextColor(
+                    ContextCompat.getColor(context!!, R.color.md_black_1000)
+            )
+        }
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        if (listPostViewModel != null) {
+            listPostViewModel!!.storesByPosition().observe(this, object : Observer<HashMap<GLocation, Store>> {
+                override fun onChanged(storesByPosition: HashMap<GLocation, Store>?) {
+                    if (storesByPosition != null) {
+                        positionStoreHashMap = storesByPosition
+                        if (mMap != null) {
+                            setUpMarkers(mMap!!, storesByPosition)
+                        }
+                    }
+                }
+            })
+
+            listPostViewModel!!.activeCategories().observe(this, object : Observer<List<GointCategory>> {
+                override fun onChanged(activeCategories: List<GointCategory>?) {
+                    if (activeCategories != null) {
+                        updateUI(activeCategories)
+                    }
+                }
+            })
+        }
+    }
+
+    fun updateUI(activeCategories: List<GointCategory>) {
+
+        val color = ContextCompat.getColor(context!!, activeCategories[0].colorId)
+        fab_filter_category_menu.menuButtonColorNormal = color
+        mListener!!.onChangeAppColor(color)
+    }
+
+    fun setUpMarkers(map : GoogleMap, storesByPosition : HashMap<GLocation, Store>) {
+
+        map.clear()
+        for ((location, store) in storesByPosition) {
+
+            var markerType = "default"
+            var markerIcon: BitmapDescriptor
+
+            if ( !store.postsAssigned[0].by.categories.isEmpty() ) {
+                markerType = store.postsAssigned[0].by.categories[0].name
+            }
+
+            when(markerType) {
+                "Productos varios" -> markerIcon = BitmapDescriptorFactory.fromResource(R.drawable.asset_7)
+                "Servicios" -> markerIcon = BitmapDescriptorFactory.fromResource(R.drawable.asset_6)
+                "Restaurants" -> markerIcon = BitmapDescriptorFactory.fromResource(R.drawable.asset_5)
+                "Bares y discos" -> markerIcon = BitmapDescriptorFactory.fromResource(R.drawable.asset_4)
+                "Entretenimiento" -> markerIcon = BitmapDescriptorFactory.fromResource(R.drawable.asset_3)
+                "Belleza" -> markerIcon = BitmapDescriptorFactory.fromResource(R.drawable.asset_1)
+                else -> markerIcon = BitmapDescriptorFactory.fromResource(R.drawable.ic_geo_place)
+            }
+
+            val markerOption = MarkerOptions()
+                    .position(
+                            LatLng(location.latitude.toDouble(), location.longitude.toDouble()))
+                    .icon(markerIcon)
+
+            map.addMarker(markerOption)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (!mRequestingLocationUpdates) {
+            startLocationUpdates()
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        if(mRequestingLocationUpdates) {
+            stopLocationUpdates()
+        }
+    }
+
+    override fun onClick(view: View) {
+
+        if (fabIds.contains(view.id)) {
+            val fab = view as FloatingActionButton
+            listPostViewModel!!.switchCategory(fab.labelText)
+        }
     }
 
     override fun onMapReady(mMap: GoogleMap) {
         this.mMap = mMap
-
-//        val markerInfoView = MarkerInfoView(activity, allMarkersMap)
+        // STYLE MAPS
+        mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(context, R.raw.style_map))
         mMap.setOnMarkerClickListener(this)
-//        mMap.setInfoWindowAdapter(markerInfoView)
-//        mMap.setOnInfoWindowClickListener(markerInfoView)
-        getLocationPermission()
-        updateLocationUI()
-        getDeviceLocation()
-    }
 
-    private fun getLocationPermission() {
-        if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            mLocationPermissionGranted = true
+        if (!checkPermission()) {
+            mMap.isMyLocationEnabled = false
+            mMap.uiSettings.isMyLocationButtonEnabled = false
+            requestpermission()
         } else {
-            ActivityCompat.requestPermissions(activity, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
-                    MY_PERMISSIONS_REQUEST_LOCATION)
+            getLastKnowLocation()
+            mLocationPermissionGranted = true
+            if (!mRequestingLocationUpdates) {
+                startLocationUpdates()
+            }
+            mMap.isMyLocationEnabled = true
+            mMap.uiSettings.isMyLocationButtonEnabled = true
+        }
+
+        if (positionStoreHashMap != null) {
+            setUpMarkers(mMap, positionStoreHashMap!!)
         }
     }
+
+    private fun checkPermission() : Boolean {
+        return ContextCompat.checkSelfPermission(context!!, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+    }
+
+    private fun requestpermission() {
+        requestPermissions(arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), MY_PERMISSIONS_REQUEST_LOCATION)
+    }
+
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         mLocationPermissionGranted = false
         when(requestCode) {
             MY_PERMISSIONS_REQUEST_LOCATION -> {
-                if (grantResults.isNotEmpty()
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     mLocationPermissionGranted = true
+//                    DO SOMETHING AFTER GET LOCATION
+                    getLastKnowLocation()
+                } else {
+                    val requestGpsPermissionAgainSnackbar = Snackbar.make(this.view!!,
+                            getString(R.string.request_permission_again),
+                            Snackbar.LENGTH_INDEFINITE)
+
+                    requestGpsPermissionAgainSnackbar.setAction("Ok", {
+                        _ ->
+                        requestGpsPermissionAgainSnackbar.dismiss()
+                        requestpermission()
+                    }).show()
                 }
             }
         }
-        updateLocationUI()
     }
 
-    private fun updateLocationUI() {
-        if (mMap == null) {
-            return
-        }
-        try {
-            if (mLocationPermissionGranted) {
-                mMap!!.isMyLocationEnabled = true
-                mMap!!.uiSettings.isMyLocationButtonEnabled = true
-            } else {
-                mMap!!.isMyLocationEnabled = false
-                mMap!!.uiSettings.isMyLocationButtonEnabled = false
-
-                mLastKnownLocation = null
-                getLocationPermission()
-            }
-        } catch (e: SecurityException)  {
-            Log.e("Exception: %s", e.message)
-        }
-    }
-
-    private fun getDeviceLocation() {
-        if (ContextCompat.checkSelfPermission(context,
-                android.Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED) {
-            mLocationPermissionGranted = true
-        } else {
-            ActivityCompat.requestPermissions(activity,
-                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                    MY_PERMISSIONS_REQUEST_LOCATION)
-        }
-        // A step later in the tutorial adds the code to get the device location.
-
-        try {
-            Log.d("getDeviceLocation ::: ", "mLocationPermissionGranted : " + mLocationPermissionGranted.toString())
-            if (mLocationPermissionGranted) {
-                Log.d("PROMOMAP ::: ", "location permision granted true")
-                val locationResult : Task<Location> = mFusedLocationClient!!.lastLocation
-                locationResult.addOnCompleteListener(activity, object : OnCompleteListener<Location> {
-                    override fun onComplete(@NotNull task: Task<Location>) {
-                        if (task.isSuccessful) {
-                            mLastKnownLocation = task.result
-                            mMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(
-                                    LatLng(mLastKnownLocation!!.latitude, mLastKnownLocation!!.longitude),
-                                    14f))
-                            mMap?.animateCamera(CameraUpdateFactory.zoomTo(14f))
-                            val marker = mMap?.addMarker(MarkerOptions()
-                                    .position(LatLng(mLastKnownLocation!!.latitude, mLastKnownLocation!!.longitude))
-                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_geo_place))
-                                    //.title("TIENDAS EL: 30% descuento en ROPAS"))
-                            )
-
-                            val promos : MutableList<MarkerData> = ArrayList<MarkerData>()
-                            promos.add(MarkerData("1","TIENDAS EL: 30% descuento en ROPAS", "disponible"))
-                            promos.add(MarkerData("1","TIENDAS EL: 40% descuento en ZAPATOS", "disponible"))
-
-                            allMarkersMap.put(marker!!, promos)
-
-                        } else {
-                            Log.d(TAG, "Current location is null. Using defaults.")
-                            Log.e(TAG, "Exception: %s", task.getException())
-                            mMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(mDefaultLocation, 14f))
-                            mMap?.animateCamera(CameraUpdateFactory.zoomTo(14f))
-                            mMap?.addMarker(MarkerOptions()
-                                    .position(mDefaultLocation)
-                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_geo_place))
-                                    .title("I'm Here! (Offline)"))
-                            mMap!!.uiSettings.isMyLocationButtonEnabled = false
-                        }
+    private fun getLastKnowLocation() {
+        if (checkPermission()) {
+            mFusedLocationClient?.lastLocation!!
+                    .addOnSuccessListener {
+                        location ->
+                            if (location != null) {
+                                Log.d(TAG, "Last Know Location --->" +
+                                        location.latitude.toString()+ "::" +
+                                        location.longitude.toString())
+                                mMap!!.moveCamera(
+                                        CameraUpdateFactory.newLatLngZoom(
+                                                LatLng(location.latitude, location.longitude),
+                                                14f))
+                                mMap?.animateCamera(
+                                        CameraUpdateFactory.zoomTo(14f))
+                                isCenteredInMyLocation = true
+                            } else {
+                                Log.d(TAG, "Not know location xxxxx")
+                            }
                     }
-                })
-
-            }
-        } catch (e : SecurityException) {
-            Log.e("Exception: %s", e.message)
         }
     }
+
+    private fun createLocationRequest() : LocationRequest {
+        var mlocationRequest = LocationRequest()
+
+        mlocationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        mlocationRequest.interval = 1000
+        mlocationRequest.fastestInterval= 1000
+
+        return mlocationRequest
+    }
+
+    private fun setLocationUpdateSettings(mLocationRequest: LocationRequest) : Task<LocationSettingsResponse>{
+
+        val builder = LocationSettingsRequest.Builder()
+                .addLocationRequest(mLocationRequest)
+
+        val client : SettingsClient = LocationServices.getSettingsClient(context!!)
+        val task : Task<LocationSettingsResponse> = client.checkLocationSettings(builder.build())
+
+        return task
+    }
+
+    private fun createLocationCallback () {
+        mlocationCallback = object : LocationCallback() {
+            override fun onLocationResult(locationResult: LocationResult?) {
+                if(locationResult?.lastLocation != null) {
+                    Log.d(TAG, "lastLocation --> " +
+                            locationResult.lastLocation.latitude.toString() + " :: " +
+                            locationResult.lastLocation.longitude.toString())
+                    Log.d(TAG, "location series --> " + locationResult.locations.size.toString())
+                    listPostViewModel!!.setLocation(locationResult.lastLocation)
+
+                    updateUIonMap(locationResult.lastLocation)
+                } else {
+                    Log.d(TAG, "lastLocation --> " + " null :: null")
+                }
+            }
+        }
+    }
+
+    private fun updateUIonMap(lastLocation: Location) {
+        if(mRequestingLocationUpdates) {
+            if(!isCenteredInMyLocation) {
+                mMap!!.moveCamera(
+                        CameraUpdateFactory.newLatLngZoom(
+                                LatLng(lastLocation.latitude, lastLocation.longitude),
+                                14f))
+                mMap?.animateCamera(
+                        CameraUpdateFactory.zoomTo(14f))
+                isCenteredInMyLocation = true
+            }
+        }
+    }
+
+    private fun startLocationUpdates() {
+        createLocationCallback()
+
+        val requestLocation = createLocationRequest()
+        if (checkPermission()) {
+            setLocationUpdateSettings(requestLocation)
+                    .addOnSuccessListener {
+                        mRequestingLocationUpdates = true
+                        mFusedLocationClient?.requestLocationUpdates(requestLocation, mlocationCallback,null)
+                    }
+                    .addOnFailureListener {
+                        e -> e.printStackTrace()
+                    }
+        }
+    }
+
+    private fun stopLocationUpdates() {
+        mFusedLocationClient?.removeLocationUpdates(mlocationCallback)!!
+                .addOnCompleteListener {
+                    task ->
+                    mRequestingLocationUpdates = false
+                }
+    }
+
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
@@ -222,39 +347,20 @@ class PromoMapFragment : Fragment(), OnMapReadyCallback,
         mListener = null
     }
 
-    override fun onConnectionFailed(p0: ConnectionResult) {
-
-    }
-
-    override fun onConnected(p0: Bundle?) {
-//        try {
-//            mFusedLocationProviderApi.requestLocationUpdates(mGoogleApiClient, locationRequest, this)
-//        } catch (e : SecurityException) {
-//            Log.e("Exception: %s", e.message)
-//        }
-    }
-
-    override fun onLocationChanged(location: Location?) {
-        Log.i("onLocation Changed: %s", location.toString())
-
-    }
-
-    override fun onConnectionSuspended(p0: Int) {
-
-    }
-
     override fun onMarkerClick(marker: Marker): Boolean {
-        val promos = allMarkersMap[marker]!!
-        Log.d(activity.localClassName.toString(), promos.toString())
 
-        initAndOpenPromoDialog(promos)
+        val store : Store = positionStoreHashMap!![GLocation(latitude = marker.position.latitude.toFloat(),
+                longitude = marker.position.longitude.toFloat())]!!
+
+        initAndOpenPromoDialog(store.postsAssigned)
         return true
     }
 
-    private fun initAndOpenPromoDialog (promos : List<MarkerData>) {
+    private fun initAndOpenPromoDialog (posts : List<GeoPost>) {
 
-        val promoListDialog = PromoGeoItemsDialog(context, promos)
+        val promoListDialog = PromoGeoItemsDialog(context!!, posts)
         promoListDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         promoListDialog.show()
     }
+
 }

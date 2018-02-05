@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.chimpcode.discount.ProfileStoreActivity"
+    tools:context="com.chimpcode.discount.activities.ProfileStoreActivity"
     android:background="@color/semi_white">
 
     <RelativeLayout
@@ -41,9 +41,10 @@
             android:text="Goint"
             android:textColor="@color/white"
             android:textSize="15dp"
-            android:id="@+id/textView" />
+            android:id="@+id/title_1" />
 
         <TextView
+            android:id="@+id/title_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/imageView"
@@ -54,6 +55,18 @@
             android:text="L - V : 8:00 am - 8:00 pm"
             android:textColor="@color/white"
             android:textSize="10dp" />
+
+        <ImageButton
+            android:id="@+id/company_info"
+            style="@style/Widget.AppCompat.Button.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/imageView"
+            android:layout_alignParentEnd="true"
+            android:background="@color/transparent"
+            android:tint="@color/white"
+            android:layout_margin="9dp"
+            android:src="@drawable/ic_action_info" />
 
         <include
             android:id="@+id/include"

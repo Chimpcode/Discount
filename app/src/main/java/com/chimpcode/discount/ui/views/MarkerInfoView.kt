@@ -2,13 +2,11 @@ package com.chimpcode.discount.ui.views
 
 import android.app.Activity
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
 import com.chimpcode.discount.R
-import com.chimpcode.discount.models.MarkerData
+import com.chimpcode.discount.data.MarkerData
 import com.google.android.gms.maps.GoogleMap.InfoWindowAdapter
 import com.google.android.gms.maps.model.Marker
-import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.marker_info_view.view.*
 import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
 

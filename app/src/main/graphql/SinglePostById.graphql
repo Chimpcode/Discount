@@ -1,0 +1,36 @@
+query PostById($postId: ID!) {
+    post: Post (id: $postId)
+    {
+        id
+        createdAt
+        title
+        image
+        address
+        shows
+        description
+        by {
+            id
+            commercialName,
+            email,
+            posts {
+                id
+                title
+                image
+            }
+        }
+        locationByStores {
+            id
+            name
+            locations {
+                longitude
+                latitude
+            }
+            postsAssigned {
+                id
+                createdAt
+                title
+                image
+            }
+        }
+    }
+}

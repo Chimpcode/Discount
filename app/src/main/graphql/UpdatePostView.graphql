@@ -1,0 +1,6 @@
+mutation PostAddView($postId: ID, $shows: Int) {
+  post: updatePost(id: $postId, shows: $shows) {
+    id
+    shows
+  }
+}

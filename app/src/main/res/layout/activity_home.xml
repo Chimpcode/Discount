@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.chimpcode.discount.HomeActivity">
+    tools:context="com.chimpcode.discount.activities.HomeActivity">
 
     <!-- Load the toolbar here -->
     <com.chimpcode.discount.ui.views.GointToolbar
