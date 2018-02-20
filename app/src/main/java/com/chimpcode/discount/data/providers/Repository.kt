@@ -17,7 +17,7 @@ fun List<FetchAllPosts.Location>.toLocationModel () : ArrayList<GLocation> {
         gLocations.add(
                 GLocation(
                         longitude = location.longitude().toFloat(),
-                        latitude = location.longitude().toFloat()
+                        latitude = location.latitude().toFloat()
                 )
         )
     }
@@ -90,7 +90,14 @@ fun FetchAllPosts.By1.toCompanyModel () : Company {
     return Company(
             id = id(),
             commercialName = commercialName(),
-            email = email()
+            email = email(),
+            categories = categories()!!.map {
+                CompanyCategory(
+                        id = it.id(),
+                        name = it.name(),
+                        tags = it.tags()
+                )
+            }
     )
 }
 

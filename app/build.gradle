@@ -76,4 +76,5 @@ dependencies {
     // ViewModel and LiveData
     implementation "android.arch.lifecycle:extensions:1.1.0"
     compile 'me.rishabhkhanna:CustomToggle:1.0.0'
+    compile 'com.github.arimorty:floatingsearchview:2.1.1'
 }

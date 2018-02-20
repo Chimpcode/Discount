@@ -28,8 +28,8 @@
                 android:layout_width="match_parent"
                 android:scaleType="centerCrop"
                 android:adjustViewBounds="true"
-                android:layout_height="170dp"
-                android:src="@drawable/image_view_post"/>
+                android:layout_height="150dp"
+                android:src="@drawable/image_post_card"/>
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"

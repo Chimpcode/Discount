@@ -53,7 +53,7 @@ class ListPostViewModel : ViewModel() {
 
 //    LOCATION
     var currentLocation : Location? = null
-    val rateLatLngDiff : Double = 0.04
+    val rateLatLngDiff : Double = 0.02
     var latLngDiff : Double? = null
 
     init {
@@ -66,7 +66,7 @@ class ListPostViewModel : ViewModel() {
 
     fun switchCategory(categoryText : String) {
         val category = allCategoriesDataView.findByText(categoryText)!!
-        selectedCategories.postValue(listOf(category))
+        selectedCategories.value = (listOf(category))
         fetchPosts()
     }
 
@@ -177,7 +177,8 @@ class ListPostViewModel : ViewModel() {
         }
     }
 
-    fun setLocation (loc : Location) {
+    fun setLocation (loc : Location) : Boolean {
+        var isSet = false
         if (currentLocation != null) {
             val latDiff = (currentLocation as Location).latitude - loc.latitude
             val lngDiff = (currentLocation as Location).longitude - loc.longitude
@@ -185,17 +186,19 @@ class ListPostViewModel : ViewModel() {
             if ( latDiff > 0.0001 || lngDiff > 0.0001) {
                 currentLocation = loc
                 fetchPosts()
+                isSet = true
             }
         } else {
             currentLocation = loc
             fetchPosts()
         }
+        return isSet
     }
 
     fun posts () : MutableLiveData<List<Post>> {
         if (mutablePosts == null) {
             mutablePosts = MutableLiveData()
-            fetchPosts()
+//            fetchPosts()
         }
         return mutablePosts!!
     }
@@ -203,7 +206,7 @@ class ListPostViewModel : ViewModel() {
     fun storesByPosition () : MutableLiveData<HashMap<GLocation, Store>> {
         if (mutableStoresByLocation == null) {
             mutableStoresByLocation = MutableLiveData()
-            fetchPosts()
+//            fetchPosts()
         }
         return mutableStoresByLocation!!
     }

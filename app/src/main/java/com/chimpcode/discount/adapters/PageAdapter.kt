@@ -13,6 +13,8 @@ import com.chimpcode.discount.fragments.PromoMapFragment
  */
 class PageAdapter(fm: FragmentManager, internal var mNumOfTabs: Int) : FragmentStatePagerAdapter(fm){
 
+    val TAG = "Page Adapter *** "
+
     override fun getItem(position: Int): Fragment? {
 
         when (position) {

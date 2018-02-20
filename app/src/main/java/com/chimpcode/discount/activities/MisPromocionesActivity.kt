@@ -26,7 +26,7 @@ import kotlinx.android.synthetic.main.toolbar.view.*
 class MisPromocionesActivity : AppCompatActivity(), IListener {
 
     var adapter : PromoAdapter? = null
-    val myPostsViewModel : MyPostsViewModel? = null
+    var myPostsViewModel : MyPostsViewModel? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,11 +54,11 @@ class MisPromocionesActivity : AppCompatActivity(), IListener {
         recycler!!.adapter = adapter
 
 //        VIEW MODEL
-        val myPostsViewModel = ViewModelProviders.of(this)[MyPostsViewModel::class.java]
-        myPostsViewModel.userId = userId
-        myPostsViewModel.apolloClient = app.apolloClient()!!
-        myPostsViewModel.fetchMyPosts()
-        myPostsViewModel.myposts().observe(this, object : Observer<List<Post>> {
+        myPostsViewModel = ViewModelProviders.of(this)[MyPostsViewModel::class.java]
+        myPostsViewModel!!.userId = userId
+        myPostsViewModel!!.apolloClient = app.apolloClient()!!
+        myPostsViewModel!!.fetchMyPosts()
+        myPostsViewModel!!.myposts().observe(this, object : Observer<List<Post>> {
             override fun onChanged(posts: List<Post>?) {
                 if (posts != null) {
                     updateUI(posts)

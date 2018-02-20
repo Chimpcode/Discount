@@ -22,7 +22,9 @@ class GointApplication : Application() {
     var apolloClient : ApolloClient? = null
 //    http://13.90.253.208:60000/simple/v1/cjb5vhjxf002q01897ggfz3b3 OLD
 //    http://13.90.253.208:60000/simple/v1/cjcae1ay000en0189jqrz4n2q
-    val BASE_URL = "http://13.90.253.208:60000/simple/v1/cjcae1ay000en0189jqrz4n2q"
+
+//    val BASE_URL = "http://13.90.253.208:60000/simple/v1/cjcae1ay000en0189jqrz4n2q"
+    val BASE_URL = "https://api.graph.cool/simple/v1/cjdchobh82rgk0146bw4p4kyu"
 
     override fun onCreate() {
         super.onCreate()

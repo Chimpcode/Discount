@@ -13,6 +13,7 @@ import android.transition.Slide
 import android.transition.TransitionInflater
 import android.util.Log
 import android.view.Gravity
+import android.view.View
 import com.chimpcode.discount.GointApplication
 import com.chimpcode.discount.R
 import com.chimpcode.discount.data.User
@@ -36,6 +37,7 @@ class LoginActivity : AppCompatActivity(), LoginViewInteractor {
     private val TAG = "LoginActivity ***"
     private val TAG_FACEBOOK = "Facebook ***"
     private var  callbackManager : CallbackManager? = null
+    private var loginButton : LoginButton? = null
 
     var loginViewModel : LoginViewModel? = null
 
@@ -64,9 +66,13 @@ class LoginActivity : AppCompatActivity(), LoginViewInteractor {
 
         loginViewModel = ViewModelProviders.of(this)[LoginViewModel::class.java]
 
-        val loginButton = findViewById<LoginButton>(R.id.login_button)
-        loginButton.setReadPermissions("public_profile", "email")
-        loginButton.registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
+        loginButton = findViewById<LoginButton>(R.id.login_button)
+        loginButton!!.setReadPermissions("public_profile", "email")
+        loginButton!!.setOnClickListener {
+            loginButton!!.isEnabled = false
+            loginButton!!.visibility = View.INVISIBLE
+        }
+        loginButton!!.registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
             override fun onSuccess(result: LoginResult) {
                 Log.d(TAG_FACEBOOK, "...login result success")
                 Log.d(TAG_FACEBOOK, "result token" + result.accessToken)
@@ -94,16 +100,22 @@ class LoginActivity : AppCompatActivity(), LoginViewInteractor {
 
             override fun onCancel() {
                 Log.d(TAG_FACEBOOK, "...login failed")
+
+                runOnUiThread {
+                    loginButton!!.isEnabled = true
+                    loginButton!!.visibility = View.VISIBLE
+                }
             }
 
             override fun onError(error: FacebookException?) {
                 Log.d(TAG_FACEBOOK, "result error" + error?.localizedMessage )
+
+                runOnUiThread {
+                    loginButton!!.isEnabled = true
+                    loginButton!!.visibility = View.VISIBLE
+                }
             }
         })
-
-//        FOR TEST
-        email_sign_in_button.setOnClickListener { goToHome() }
-//        sign_up_button.setOnClickListener { goToSignup() }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -133,11 +145,19 @@ class LoginActivity : AppCompatActivity(), LoginViewInteractor {
             putString(getString(R.string.email_user), user.email)
             commit()
         }
+        runOnUiThread {
+            loginButton!!.isEnabled = true
+            loginButton!!.visibility = View.VISIBLE
+        }
         goToHome()
     }
 
     override fun onFailedLogin(message: String) {
 
+        runOnUiThread {
+            loginButton!!.isEnabled = true
+            loginButton!!.visibility = View.VISIBLE
+        }
     }
 
 

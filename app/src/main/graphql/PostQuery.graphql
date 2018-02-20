@@ -53,6 +53,11 @@ query FetchAllPosts($search_text: String, $filterByCategory: [String!], $longitu
                 id
                 commercialName,
                 email
+                categories {
+                    id
+                    name
+                    tags
+                }
             }
         }
     }

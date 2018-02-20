@@ -1,4 +1,4 @@
-mutation UnlikePromotionMutation($postId: ID, $userId: ID) {
+mutation UnlikePromotionMutation($postId: ID!, $userId: ID!) {
   result: removeFromPromotionsLikeByUsers(myPromotionsPostId: $postId, usersLikedUserId: $userId) {
     usersLikedUser { id }, myPromotionsPost { id }
   }

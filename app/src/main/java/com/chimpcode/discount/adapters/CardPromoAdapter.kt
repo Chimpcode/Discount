@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
+import android.widget.ImageButton
 import com.bumptech.glide.Glide
 import com.chimpcode.discount.activities.PromoDetailActivity
 import com.chimpcode.discount.R
@@ -29,6 +30,7 @@ class CardPromoAdapter(private val ctx: Context,val listener: IListener, val idP
         holder as TurnsViewHolder
         holder.bind(item as Post)
         holder.itemView.likeButton.setOnClickListener {
+            (it as ImageButton).setColorFilter(ContextCompat.getColor(ctx, R.color.primary))
             listener.onLikeOrDislikePostClick(item.id)
         }
         holder.itemView.setOnClickListener {
@@ -52,9 +54,12 @@ class CardPromoAdapter(private val ctx: Context,val listener: IListener, val idP
             if (item.distance != null) {
                 itemView.distance.text = "${ "%.2f".format(item.distance!! / 1000) } km"
             }
-            Glide.with(itemView)
-                    .load(item.image)
-                    .into(itemView.image_post)
+            if (item.image != "") {
+                Glide.with(itemView)
+                        .load(item.image)
+                        .into(itemView.image_post)
+            }
+
             if (checkIsLiked(idPosts = idPosts, postId = item.id)) {
 //                change color
                 itemView.likeButton.setColorFilter(ContextCompat.getColor(ctx, R.color.primary))

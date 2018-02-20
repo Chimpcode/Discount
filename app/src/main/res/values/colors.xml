@@ -2,17 +2,21 @@
 <resources>
     <color name="transparent">#00ffffff</color>
     <color name="disabled">#484848</color>
+    <color name="circleMapGoint">#2ef4e9e9</color>
+    <color name="circleStrokeMapGoint">#696969</color>
 
-    <color name="colorPrimary">#C12B35</color>
-    <color name="colorPrimaryTransparent">#97c12b35</color>
-    <color name="colorPrimaryDark">#A5212C</color>
+    <!--<color name="colorPrimary">#C12B35</color>-->
+    <color name="colorPrimary">#E84C55</color>
+
+    <color name="colorPrimaryTransparent">#97E84C55</color>
+    <color name="colorPrimaryDark">#E84C55</color>
     <color name="colorAccent">#262626</color>
     <!--<color name="colorAccent">#C12B35</color>-->
     <color name="colorAccentTransparent">#ce211915</color>
-    <color name="colorThreeTransparent">#d8C12B35</color>
+    <color name="colorThreeTransparent">#d8E84C55</color>
     <color name="white">#fff</color>
     <color name="md_white_800">#F9F9F9</color>
-    <color name="headerBackground">#C12B35</color>
+    <color name="headerBackground">#E84C55</color>
     <color name="semi_white">#e1e1e1</color>
 
     <color name="gray">#fafafa</color>
@@ -20,20 +24,32 @@
 
     <color name="login_video_background">#a0501b1b</color>
 
-    <color name="defaultChipColor">#C12B35</color>
+    <color name="defaultChipColor">#E84C55</color>
     <color name="alternativeChipColor">#2b94c1</color>
 
-    <color name="allColor">#C12B35</color>
-    <color name="bellezaColor">#5DAF52</color>
+    <!--<color name="allColor">#C12B35</color>-->
+    <color name="allColor">#E84C55</color>
+    <!--<color name="bellezaColor">#5DAF52</color>-->
+    <color name="bellezaColor">#42BC7B</color>
     <color name="bellezaColorTransparent">#ab5daf52</color>
-    <color name="entretenimientoColor">#E9B400</color>
+
+    <!--<color name="entretenimientoColor">#E9B400</color>-->
+    <color name="entretenimientoColor">#FFE058</color>
     <color name="entretenimientoColorTransparent">#abE9B400</color>
-    <color name="baresColor">#77378D</color>
+
+    <!--<color name="baresColor">#77378D</color>-->
+    <color name="baresColor">#C955C2</color>
     <color name="baresColorTransparent">#ab77378D</color>
-    <color name="restaurantsColor">#E7632C</color>
+
+    <!--<color name="restaurantsColor">#E7632C</color>-->
+    <color name="restaurantsColor">#F38F3E</color>
     <color name="restaurantsColorTransparent">#abE7632C</color>
-    <color name="serviciosColor">#00ACCD</color>
+
+    <!--<color name="serviciosColor">#00ACCD</color>-->
+    <color name="serviciosColor">#48CFD4</color>
     <color name="serviciosColorTransparent">#ab00ACCD</color>
-    <color name="variosColor">#2b94c1</color>
+
+    <!--<color name="variosColor">#2b94c1</color>-->
+    <color name="variosColor">#2A5CCE</color>
     <color name="variosColorTransparent">#ab2b94c1</color>
 </resources>

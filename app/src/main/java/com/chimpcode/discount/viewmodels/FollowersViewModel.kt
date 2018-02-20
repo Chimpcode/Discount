@@ -69,7 +69,10 @@ class FollowersViewModel : ViewModel() {
 
                 for (__company : Company in companies) {
                     for (companySubscribed : Company in companiesSubscribed) {
-                        __company.isSubscribed = __company.id == companySubscribed.id
+                        if (__company.id == companySubscribed.id) {
+                            __company.isSubscribed = true
+                            break
+                        }
                     }
                 }
                 _companies!!.postValue(companies)

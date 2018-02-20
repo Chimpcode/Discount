@@ -8,14 +8,13 @@
     tools:context="com.chimpcode.discount.activities.HomeActivity">
 
     <!-- Load the toolbar here -->
-    <com.chimpcode.discount.ui.views.GointToolbar
+    <com.chimpcode.discount.ui.views.GointSearchToolbar
         android:id="@+id/goint_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"/>
 
-
     <android.support.design.widget.TabLayout
-        android:id="@+id/tabLayout"
+        android:id="@+id/tab_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"

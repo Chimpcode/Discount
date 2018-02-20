@@ -53,7 +53,7 @@ data class CompanyCategory (
         val id : String = "",
         val name : String = "",
         val alias: String = "",
-        val tags: List<String> = ArrayList<String>()
+        val tags: List<String>? = null
 ) : Serializable
 
 

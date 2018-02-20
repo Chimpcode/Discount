@@ -1,36 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout
-    android:id="@+id/toolbar_container"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="?attr/actionBarSize"
     android:layout_width="match_parent"
+    android:background="@color/colorPrimary"
     >
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/discount_toolbar"
-        android:layout_height="?attr/actionBarSize"
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:background="@color/colorPrimary"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:layout_scrollFlags="scroll|enterAlways"
-        app:layout_collapseMode="pin">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <LinearLayout
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/discount_toolbar"
+            android:layout_height="?attr/actionBarSize"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:background="@color/colorPrimary"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:layout_collapseMode="pin">
 
-            <TextView
-                android:id="@+id/toolbar_title"
-                android:fontFamily="@font/nexa_bold"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/app_name"
-                android:textColor="@android:color/white"
-                style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
-                android:textAlignment="textStart"
-                />
-        </LinearLayout>
-    </android.support.v7.widget.Toolbar>
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/toolbar_title"
+                    android:fontFamily="@font/nexa_bold"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/app_name"
+                    android:textColor="@android:color/white"
+                    style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+                    android:textAlignment="textStart"
+                    />
+
+            </LinearLayout>
+        </android.support.v7.widget.Toolbar>
+    </LinearLayout>
+
 </FrameLayout>

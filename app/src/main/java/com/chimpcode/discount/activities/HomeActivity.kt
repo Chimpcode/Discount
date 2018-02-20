@@ -5,7 +5,10 @@ import android.animation.ValueAnimator
 import android.app.SearchManager
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
+import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
+import android.graphics.drawable.GradientDrawable
 import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -20,20 +23,36 @@ import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.toolbar.view.*
 import android.view.WindowManager
 import android.os.Build
+import android.support.v4.content.ContextCompat
+import android.support.v4.graphics.drawable.DrawableCompat
 import android.support.v7.preference.PreferenceManager
 import android.support.v7.widget.SearchView
 import android.text.TextUtils
 import android.util.Log
 import android.view.Menu
+import android.view.View
+import android.widget.TextView
+import com.arlib.floatingsearchview.FloatingSearchView
 import com.chimpcode.discount.fragments.PromoListFragment
 import com.chimpcode.discount.viewmodels.ListPostViewModel
+import com.mikepenz.materialdrawer.AccountHeaderBuilder
+import com.mikepenz.materialdrawer.Drawer
+import com.mikepenz.materialdrawer.model.ProfileDrawerItem
+import kotlinx.android.synthetic.main.search_toolbar.*
+import kotlinx.android.synthetic.main.toolbar.*
+import org.jetbrains.anko.act
 
 class HomeActivity : AppCompatActivity(), IFragmentInteractionListener{
 
     var app : GointApplication? = null
-    var gointToolbar : Toolbar? = null
+//    var gointToolbar : Toolbar? = null
     var tabView: TabLayout? = null
     val TAG = "HOME ACTIVITY"
+    var drawer : Drawer? = null
+    var mkDrawer : MkDrawer? = null
+
+    var fullName : String = ""
+    var email : String = ""
 
     var listPostViewModel: ListPostViewModel? = null
 
@@ -44,18 +63,22 @@ class HomeActivity : AppCompatActivity(), IFragmentInteractionListener{
         settingRangeSearchPosts()
 
 //        TOOLBAR
-        gointToolbar = findViewById(R.id.discount_toolbar)
-        gointToolbar!!.toolbar_title.text = "Goint"
-        setSupportActionBar(gointToolbar)
+//        gointToolbar = findViewById(R.id.discount_toolbar)
+//        gointToolbar!!.toolbar_title.text = "Goint"
+//        setSupportActionBar(gointToolbar)
+
+
 
         val sharedPref = getSharedPreferences(getString(R.string.user_info), Context.MODE_PRIVATE) ?: return
-        val fullname = sharedPref.getString(getString(R.string.fullname), "***")
-        val email = sharedPref.getString(getString(R.string.email_user), "***@***.**")
+        fullName = sharedPref.getString(getString(R.string.fullname), "***")
+        email = sharedPref.getString(getString(R.string.email_user), "***@***.**")
 
-        MkDrawer().createOne(gointToolbar!!, this, fullname, email)
+        mkDrawer = MkDrawer()
+        drawer = mkDrawer!!.createOne(null, this, fullName, email)
+        floating_search_view.attachNavigationDrawerToMenuButton(drawer!!.drawerLayout)
 
 //        TABS AND TAB LAYUOT
-        tabView = tabLayout
+        tabView = tab_layout
         tabView!!.addTab(tabView!!.newTab())
         tabView!!.addTab(tabView!!.newTab())
         tabView!!.tabGravity = TabLayout.GRAVITY_FILL
@@ -69,6 +92,16 @@ class HomeActivity : AppCompatActivity(), IFragmentInteractionListener{
         val sp = getSharedPreferences(getString(R.string.user_info), Context.MODE_PRIVATE)
         val userId = sp.getString(getString(R.string.user_id), "")
 
+
+        val _intent = intent
+        val promoId : String? = _intent.extras["promo_id"] as String?
+        Log.d(TAG, promoId?:"null")
+        if (promoId != null) {
+//            redirect to map fragment
+            Log.d(TAG, "redirect to map fragment")
+            viewPager.arrowScroll(View.FOCUS_RIGHT)
+        }
+
 //        VIEW MODEL
         val app = application
         listPostViewModel = ViewModelProviders.of(this)[ListPostViewModel::class.java]
@@ -78,6 +111,7 @@ class HomeActivity : AppCompatActivity(), IFragmentInteractionListener{
         listPostViewModel!!.fetchMyPosts(userId)
 
         listPostViewModel!!.setRateLatLng(getRangeSearchPosts())
+
     }
 
     fun settingRangeSearchPosts () {
@@ -92,7 +126,7 @@ class HomeActivity : AppCompatActivity(), IFragmentInteractionListener{
         }
     }
 
-    fun getRangeSearchPosts() : Int{
+    fun getRangeSearchPosts() : Int {
 
         val sharedPref = PreferenceManager.getDefaultSharedPreferences(this)
         val range_search = sharedPref.getInt("slider_picker", 0)
@@ -114,7 +148,7 @@ class HomeActivity : AppCompatActivity(), IFragmentInteractionListener{
 
     override fun onChangeAppColor(color: Int) {
 
-        val colorFrom = (gointToolbar!!.background as ColorDrawable).color
+        val colorFrom = (tabView!!.background as ColorDrawable).color
         val colorTo = ColorDrawable(color).color
 
         val colorAnimation = ValueAnimator.ofObject(ArgbEvaluator(), colorFrom, colorTo)
@@ -122,12 +156,18 @@ class HomeActivity : AppCompatActivity(), IFragmentInteractionListener{
         colorAnimation.addUpdateListener {
             animator ->
             val colorNumber : Int = animator.animatedValue as Int
-            supportActionBar!!.setBackgroundDrawable(ColorDrawable(colorNumber))
+
+            toolbar_container.setBackgroundColor(color)
+//            supportActionBar!!.setBackgroundDrawable(ColorDrawable(colorNumber))
             tabView!!.background = ColorDrawable(colorNumber)
             changeStatusBarColor(colorNumber)
         }
         colorAnimation.setDuration(250)
         colorAnimation.start()
+
+        if (drawer != null && mkDrawer != null) {
+            mkDrawer!!.changeHeader(drawer!!, this, color)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

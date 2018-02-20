@@ -4,6 +4,7 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
@@ -131,17 +132,18 @@ class PromoMapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClick
             var markerType = "default"
             var markerIcon: BitmapDescriptor
 
-            if ( !store.postsAssigned[0].by.categories.isEmpty() ) {
+            val company = store.postsAssigned[0].by
+            if ( company.categories.isNotEmpty() ) {
                 markerType = store.postsAssigned[0].by.categories[0].name
             }
 
             when(markerType) {
                 "Productos varios" -> markerIcon = BitmapDescriptorFactory.fromResource(R.drawable.asset_7)
                 "Servicios" -> markerIcon = BitmapDescriptorFactory.fromResource(R.drawable.asset_6)
-                "Restaurants" -> markerIcon = BitmapDescriptorFactory.fromResource(R.drawable.asset_5)
-                "Bares y discos" -> markerIcon = BitmapDescriptorFactory.fromResource(R.drawable.asset_4)
-                "Entretenimiento" -> markerIcon = BitmapDescriptorFactory.fromResource(R.drawable.asset_3)
-                "Belleza" -> markerIcon = BitmapDescriptorFactory.fromResource(R.drawable.asset_1)
+                "Restaurants" -> markerIcon = BitmapDescriptorFactory.fromResource(R.drawable.asset_1)
+                "Bares y discos" -> markerIcon = BitmapDescriptorFactory.fromResource(R.drawable.asset_3)
+                "Entretenimiento" -> markerIcon = BitmapDescriptorFactory.fromResource(R.drawable.asset_4)
+                "Belleza" -> markerIcon = BitmapDescriptorFactory.fromResource(R.drawable.asset_5)
                 else -> markerIcon = BitmapDescriptorFactory.fromResource(R.drawable.ic_geo_place)
             }
 
@@ -284,8 +286,9 @@ class PromoMapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClick
                             locationResult.lastLocation.latitude.toString() + " :: " +
                             locationResult.lastLocation.longitude.toString())
                     Log.d(TAG, "location series --> " + locationResult.locations.size.toString())
-                    listPostViewModel!!.setLocation(locationResult.lastLocation)
-
+                    if (listPostViewModel!!.setLocation(locationResult.lastLocation)) {
+                    }
+                    drawCircle(locationResult.lastLocation, mMap)
                     updateUIonMap(locationResult.lastLocation)
                 } else {
                     Log.d(TAG, "lastLocation --> " + " null :: null")
@@ -361,6 +364,22 @@ class PromoMapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClick
         val promoListDialog = PromoGeoItemsDialog(context!!, posts)
         promoListDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         promoListDialog.show()
+    }
+
+    fun drawCircle(location : Location, map : GoogleMap?) {
+        if (map != null) {
+            val latlng = LatLng(location.latitude, location.longitude)
+            var latLngDiff = listPostViewModel?.latLngDiff?:0.0
+            val positionEnd = Location("")
+            positionEnd.latitude = location.latitude + latLngDiff
+            positionEnd.longitude = location.longitude
+            map.addCircle(CircleOptions()
+                    .center(latlng)
+                    .radius(location.distanceTo(positionEnd).toDouble())
+                    .strokeColor(ContextCompat.getColor(context!!, R.color.circleStrokeMapGoint))
+                    .fillColor(ContextCompat.getColor(context!!, R.color.circleMapGoint))
+            )
+        }
     }
 
 }

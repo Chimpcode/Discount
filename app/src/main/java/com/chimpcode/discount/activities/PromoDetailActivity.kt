@@ -3,6 +3,7 @@ package com.chimpcode.discount.activities
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.*
@@ -22,6 +23,7 @@ import kotlinx.android.synthetic.main.activity_promo_detail.*
 class PromoDetailActivity : AppCompatActivity(), IListener {
 
     var postViewModel: PostViewModel? = null
+    val TAG = "PromoDetailActivity :: "
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,16 +61,35 @@ class PromoDetailActivity : AppCompatActivity(), IListener {
                     updateUI(post)
                 }
             }
-
         })
+
+        share_button.setOnClickListener {
+            val intent = Intent()
+            intent.setAction(Intent.ACTION_SEND)
+
+//            # change the type of data you need to share,
+//            # for image use "image/*"
+            intent.setType("text/plain")
+            intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_text))
+            startActivity(Intent.createChooser(intent, "Share"))
+        }
+        goToMapView.setOnClickListener {
+            Log.d(TAG, "GoToMapView")
+            val intent = Intent(this, HomeActivity::class.java)
+            intent.putExtra("promo_id", "aaaaaaa")
+            startActivity(intent)
+        }
+
     }
 
     private fun updateUI(post: Post) {
         post_title.text = post.title
         post_description.text = post.description
-        Glide.with(this)
-                .load(post.image)
-                .into(post_image)
+        if (post.image != "") {
+            Glide.with(this)
+                    .load(post.image)
+                    .into(post_image)
+        }
         label_additional_promos.text = getString(R.string.view_more_promos_title, post.by.commercialName)
 
         if (additional_promos_recycler.adapter != null) {
