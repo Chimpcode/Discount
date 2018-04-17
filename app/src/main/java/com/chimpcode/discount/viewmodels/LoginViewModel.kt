@@ -23,7 +23,7 @@ class LoginViewModel : ViewModel() {
     var apolloClient : ApolloClient? = null
 
     fun login(apolloClient: ApolloClient, facebookId: String, interactor: LoginViewInteractor, jsonobject: JSONObject) {
-        fetchUser(apolloClient, facebookId).enqueue(object : ApolloCall.Callback<GetUserByFacebookId.Data>() {
+         fetchUser(apolloClient, facebookId).enqueue(object : ApolloCall.Callback<GetUserByFacebookId.Data>() {
             override fun onFailure(e: ApolloException) {
                 Log.d(TAG, e.message)
                 interactor.onFailedLogin(e.message?:"Error. Try again.")
@@ -34,13 +34,15 @@ class LoginViewModel : ViewModel() {
                 if (response.data()!!.users().isEmpty()) {
 //                    craete an user
 //                    jsonobject
+                    val username = (jsonobject["email"] as String).replace('@', '.')
+                    val password = (jsonobject["email"] as String).replace('@', '.')
                     user = User(
                             fullName = jsonobject["name"] as String,
                             facebookId = jsonobject["id"] as String,
                             email = jsonobject["email"] as String,
                             gender = jsonobject["gender"] as String,
-                            username = "",
-                            password = ""
+                            username = username,
+                            password = password
                     )
                     createUser(apolloClient, user).enqueue(object : ApolloCall.Callback<CreateUser.Data>() {
                         override fun onFailure(e: ApolloException) {

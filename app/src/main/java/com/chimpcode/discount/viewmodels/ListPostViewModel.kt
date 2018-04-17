@@ -105,7 +105,12 @@ class ListPostViewModel : ViewModel() {
 
             override fun onResponse(response: Response<MyPromotionsByUser.Data>) {
                 val rawUser = response.data()!!.user()
-                val posts : ArrayList<Post> = rawUser!!.myPromotions()!!._toPostsModel()
+                val posts : ArrayList<Post>
+                posts = if (rawUser == null) {
+                    ArrayList()
+                } else {
+                    rawUser.myPromotions()!!._toPostsModel()
+                }
 
                 updateMyPostsData(posts)
             }
