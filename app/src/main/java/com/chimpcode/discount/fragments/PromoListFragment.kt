@@ -98,7 +98,6 @@ class PromoListFragment : Fragment(), IListener, SwipeRefreshLayout.OnRefreshLis
                         adapter!!.setMyPosts(_myposts)
                     }
                 }
-
             })
         }
     }

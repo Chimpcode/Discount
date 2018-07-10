@@ -60,7 +60,7 @@ class ListPostViewModel : ViewModel() {
         selectedCategories.postValue(listOf(defaultCategory))
     }
 
-    fun settingApolloClient (_apolloClient: ApolloClient) {
+    fun Post (_apolloClient: ApolloClient) {
         apolloClient = _apolloClient
     }
 

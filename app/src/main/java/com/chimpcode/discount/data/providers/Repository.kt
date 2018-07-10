@@ -1,12 +1,14 @@
 package com.chimpcode.discount.data.providers
 
 import android.location.Location
+import android.util.Log
 import com.apollographql.apollo.ApolloCall
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.ApolloMutationCall
 import com.apollographql.apollo.ApolloQueryCall
 import com.chimpcode.discount.common.fromISO8601UTC
 import com.chimpcode.discount.data.*
+import java.util.*
 
 /**
  * Created by anargu on 1/12/18.
@@ -108,6 +110,26 @@ fun fetchPosts(apolloClient: ApolloClient,
 
     val TAG = "fetchPosts ***"
 
+    val calendar = Calendar.getInstance()
+    val day = calendar.get(Calendar.DAY_OF_WEEK)
+    var dayLetter = ""
+    when (day) {
+        Calendar.SUNDAY->
+            dayLetter = "D"
+        Calendar.MONDAY->
+            dayLetter = "L"
+        Calendar.TUESDAY->
+            dayLetter = "M"
+        Calendar.WEDNESDAY->
+            dayLetter = "X"
+        Calendar.THURSDAY->
+            dayLetter = "J"
+        Calendar.FRIDAY->
+            dayLetter = "V"
+        Calendar.SATURDAY->
+            dayLetter = "S"
+    }
+
     var latitude_gt : Double = -90.0
     var latitude_lt : Double = 90.0
     var longitude_gt : Double = -180.0
@@ -122,6 +144,7 @@ fun fetchPosts(apolloClient: ApolloClient,
 
     val queryParams = FetchAllPosts.builder()
             .search_text(searchText)
+            .currentDay(dayLetter)
             .filterByCategory(categories)
             .latitude_gt(latitude_gt)
             .latitude_lt(latitude_lt)

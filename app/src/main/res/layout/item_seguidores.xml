@@ -30,7 +30,7 @@
         android:layout_marginTop="24dp"
         android:text="TextView"
         android:textColor="@color/md_black_1000"
-        android:textSize="20dp"
+        android:textSize="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/company_image"
         app:layout_constraintTop_toTopOf="parent"
@@ -49,14 +49,14 @@
         android:layout_marginTop="24dp"
 
         android:textSize="12dp"
-        app:radius="1dp"
-        app:borderWidth="4dp"
+        app:radius="8dp"
+        app:borderWidth="1dp"
 
-        android:textOff="SUSCRIBIRSE"
+        android:textOff="SEGUIR"
         app:uncheckedColor="@color/md_grey_600"
         app:uncheckedTextColor="@color/md_grey_600"
 
-        android:textOn="SUSCRITO"
+        android:textOn="SIGUIENDO"
         app:checkedColor="@color/colorPrimary"
         app:checkedTextColor="@color/white"
 

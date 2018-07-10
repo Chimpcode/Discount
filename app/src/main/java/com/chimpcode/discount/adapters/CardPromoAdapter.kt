@@ -51,9 +51,14 @@ class CardPromoAdapter(private val ctx: Context,val listener: IListener, val idP
     ) {
         fun bind(item : Post) {
             itemView.promo_title.text = item.title
+            itemView.company_title.text = item.by.commercialName
+
             if (item.distance != null) {
                 itemView.distance.text = "${ "%.2f".format(item.distance!! / 1000) } km"
+            } else {
+                itemView.distance.text = ""
             }
+
             if (item.image != "") {
                 Glide.with(itemView)
                         .load(item.image)

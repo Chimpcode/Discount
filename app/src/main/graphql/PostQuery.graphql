@@ -1,6 +1,10 @@
-query FetchAllPosts($search_text: String, $filterByCategory: [String!], $longitude_lt: Float!, $longitude_gt: Float!, $latitude_lt: Float!, $latitude_gt: Float!) {
+query FetchAllPosts($currentDay: String, $search_text: String, $filterByCategory: [String!], $longitude_lt: Float!, $longitude_gt: Float!, $latitude_lt: Float!, $latitude_gt: Float!) {
     posts: allPosts (
         filter: {
+            isActive: true,
+            targetPublic:{
+                    availableDays_contains: $currentDay
+            }
             OR: [
                { title_contains: $search_text } ,
                { tags_contains: $search_text }
@@ -60,6 +64,14 @@ query FetchAllPosts($search_text: String, $filterByCategory: [String!], $longitu
                 }
             }
         }
+    }
+    targetPublic {
+        availableDays
+        lowerHour
+        upperHour
+        maxAge
+        minAge
+        gender
     }
   }
 }
